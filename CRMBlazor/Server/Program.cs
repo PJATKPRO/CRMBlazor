@@ -1,22 +1,36 @@
-using CRMBlazor.Server.Data;
+using CRMBlazor.Server.Data.CRMBlazorDb;
 using CRMBlazor.Server.Models;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+var mariaDbVersion = new MySqlServerVersion(new Version(5, 7));
+
+builder.Services.AddDbContext<CRMBlazorDbContext>(options =>
+{
+#if DEBUG
+    options.UseMySql(connectionString, mariaDbVersion)
+    .EnableSensitiveDataLogging()
+    .EnableDetailedErrors();
+
+#else
+    options.UseMySql(connectionString, mariaDbVersion);
+#endif
+});
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<CRMBlazorDbContext>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+    .AddApiAuthorization<ApplicationUser, CRMBlazorDbContext>();
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
