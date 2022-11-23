@@ -18,9 +18,11 @@ namespace CRMBlazor.Server.Data.CRMBlazorDb
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            //ignore owned types
             modelBuilder.Ignore<Address>();
 
+
+            //use charset
             modelBuilder.HasCharSet("utf8mb4")
                .UseCollation("utf8mb4_general_ci");
 
@@ -30,13 +32,12 @@ namespace CRMBlazor.Server.Data.CRMBlazorDb
             {
                 foreach (var entityProperty in entityType.GetProperties())
                 {
-                    //all strings default maxlength 128
                     if (entityProperty.ClrType == typeof(string)
-                        //&& (
-                        //entityProperty.Name.Equals("Name")
-                        //|| entityProperty.Name.Equals("Surname")
-                        //|| entityProperty.Name.Contains("Email")
-                        //)
+                        && (
+                        entityProperty.Name.Equals("Name")
+                        || entityProperty.Name.Equals("Surname")
+                        || entityProperty.Name.Contains("Email")
+                        )
                         )
                     {
                         entityProperty.SetMaxLength(128);
