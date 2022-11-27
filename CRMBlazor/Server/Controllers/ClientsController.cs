@@ -21,22 +21,22 @@ namespace CRMBlazor.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client>>> GetClient()
         {
-            if (_context.Client == null)
+            if (_context.Clients == null)
             {
                 return NotFound();
             }
-            return await _context.Client.ToListAsync();
+            return await _context.Clients.ToListAsync();
         }
 
         // GET: api/Clients/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client>> GetClient(int id)
         {
-            if (_context.Client == null)
+            if (_context.Clients == null)
             {
                 return NotFound();
             }
-            var client = await _context.Client.FindAsync(id);
+            var client = await _context.Clients.FindAsync(id);
 
             if (client == null)
             {
@@ -82,11 +82,11 @@ namespace CRMBlazor.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client>> PostClient(CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client client)
         {
-            if (_context.Client == null)
+            if (_context.Clients == null)
             {
                 return Problem("Entity set 'CRMBlazorDbContext.Client'  is null.");
             }
-            _context.Client.Add(client);
+            _context.Clients.Add(client);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetClient", new { id = client.Id }, client);
@@ -96,17 +96,17 @@ namespace CRMBlazor.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClient(int id)
         {
-            if (_context.Client == null)
+            if (_context.Clients == null)
             {
                 return NotFound();
             }
-            var client = await _context.Client.FindAsync(id);
+            var client = await _context.Clients.FindAsync(id);
             if (client == null)
             {
                 return NotFound();
             }
 
-            _context.Client.Remove(client);
+            _context.Clients.Remove(client);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -114,7 +114,7 @@ namespace CRMBlazor.Server.Controllers
 
         private bool ClientExists(int id)
         {
-            return (_context.Client?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Clients?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
