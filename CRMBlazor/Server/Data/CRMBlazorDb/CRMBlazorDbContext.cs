@@ -16,10 +16,14 @@ namespace CRMBlazor.Server.Data.CRMBlazorDb
         {
         }
 
+
+        public virtual DbSet<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client> Clients { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ignore owned types
             modelBuilder.Ignore<Address>();
+
+
 
 
             //use charset
