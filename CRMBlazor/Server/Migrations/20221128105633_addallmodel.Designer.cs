@@ -3,6 +3,7 @@ using System;
 using CRMBlazor.Server.Data.CRMBlazorDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMBlazor.Server.Migrations
 {
     [DbContext(typeof(CRMBlazorDbContext))]
-    partial class CRMBlazorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221128105633_addallmodel")]
+    partial class addallmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

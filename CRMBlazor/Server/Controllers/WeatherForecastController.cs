@@ -1,3 +1,4 @@
+using CRMBlazor.Server.Data.CRMBlazorDb;
 using CRMBlazor.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ namespace CRMBlazor.Server.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -16,7 +17,7 @@ namespace CRMBlazor.Server.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, CRMBlazorDbContext dbContext)
         {
             _logger = logger;
         }
@@ -24,6 +25,7 @@ namespace CRMBlazor.Server.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            _logger.LogInformation(base.Request.ContentType);
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
@@ -31,6 +33,7 @@ namespace CRMBlazor.Server.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+
         }
     }
 }

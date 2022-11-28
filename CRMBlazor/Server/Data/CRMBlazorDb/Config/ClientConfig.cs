@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CRMBlazor.Server.Data.CRMBlazorDb.Config
 {
-    internal class ClientConfig : IEntityTypeConfiguration<Shared.Data.CRMBlazorDb.Models.Client>
+    internal sealed class ClientConfig : IEntityTypeConfiguration<Shared.Data.CRMBlazorDb.Models.Client>
     {
         public void Configure
             (EntityTypeBuilder<Shared.Data.CRMBlazorDb.Models.Client> entity)
