@@ -1,14 +1,12 @@
 ﻿using CRMBlazor.Server.Data.CRMBlazorDb;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRMBlazor.Server.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/Client")]
     [ApiController]
-    internal sealed class ClientsController : ControllerBase
+    public class ClientsController : ControllerBase
     {
         private readonly CRMBlazorDbContext _context;
 
@@ -19,7 +17,7 @@ namespace CRMBlazor.Server.Controllers
 
         // GET: api/Clients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client>>> GetClient()
+        public async Task<ActionResult<IEnumerable<Shared.Data.CRMBlazorDb.Models.Client>>> GetClients()
         {
             if (_context.Clients == null)
             {
@@ -30,7 +28,7 @@ namespace CRMBlazor.Server.Controllers
 
         // GET: api/Clients/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client>> GetClient(int id)
+        public async Task<ActionResult<Shared.Data.CRMBlazorDb.Models.Client>> GetClient(int id)
         {
             if (_context.Clients == null)
             {
@@ -49,7 +47,7 @@ namespace CRMBlazor.Server.Controllers
         // PUT: api/Clients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClient(int id, CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client client)
+        public async Task<IActionResult> PutClient(int id, Shared.Data.CRMBlazorDb.Models.Client client)
         {
             if (id != client.Id)
             {
@@ -80,11 +78,11 @@ namespace CRMBlazor.Server.Controllers
         // POST: api/Clients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client>> PostClient(CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client client)
+        public async Task<ActionResult<Shared.Data.CRMBlazorDb.Models.Client>> PostClient(Shared.Data.CRMBlazorDb.Models.Client client)
         {
             if (_context.Clients == null)
             {
-                return Problem("Entity set 'CRMBlazorDbContext.Client'  is null.");
+                return Problem("Entity set 'CRMBlazorDbContext.Clients'  is null.");
             }
             _context.Clients.Add(client);
             await _context.SaveChangesAsync();

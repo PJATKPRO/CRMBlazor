@@ -15,6 +15,17 @@ namespace CRMBlazor.Server.Data.CRMBlazorDb
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+        public DbSet<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client> Clients { get; set; } = default!;
+        public DbSet<Company> Companies { get; set; } = default!;
+        public DbSet<CompanyType> CompanyTypes { get; set; } = default!;
+        public DbSet<EmailSnippet> EmailSnippets { get; set; } = default!;
+        public DbSet<Flow> Flows { get; set; } = default!;
+        public DbSet<FlowAction> FlowActions { get; set; } = default!;
+        public DbSet<JTFlowActionEmailSnippet> JTFlowActionEmailSnippets { get; set; } = default!;
+        public DbSet<JTFlowProduct> JTFlowProducts { get; set; } = default!;
+        public DbSet<Product> Products { get; set; } = default!;
+        public DbSet<ProductCategory> ProductCategories { get; set; } = default!;
+        public DbSet<Warehouse> Warehouses { get; set; } = default!;
 
 
         public virtual DbSet<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client> Clients { get; set; } = null!;
@@ -76,6 +87,8 @@ namespace CRMBlazor.Server.Data.CRMBlazorDb
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
     }
 
 }

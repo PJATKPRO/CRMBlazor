@@ -2,11 +2,12 @@
 
 namespace CRMBlazor.Shared.Data.CRMBlazorDb.Models
 {
-    public partial class Client
+    public class Client
     {
 
         public Client()
         {
+            Flows = new HashSet<Flow>();
         }
 
         public int Id { get; set; }
@@ -21,7 +22,7 @@ namespace CRMBlazor.Shared.Data.CRMBlazorDb.Models
 
         [MaxLength(128, ErrorMessage = "Pole {0} nie może mieć więcej niż {1} znaków.")]
         [EmailAddress]
-        public string Email { get; set; } = "default@mail.com";
+        public string Email { get; set; }
 
         [MaxLength(50, ErrorMessage = "Pole {0} nie może mieć więcej niż {1} znaków.")]
         public string? PeselOrNip { get; set; }
@@ -31,6 +32,7 @@ namespace CRMBlazor.Shared.Data.CRMBlazorDb.Models
 
         public virtual Address? Address { get; set; } = null!;
         public virtual Address? InvestitionAddress { get; set; } = null!;
+        public ICollection<Flow> Flows { get; set; } = null!;
 
     }
 }
