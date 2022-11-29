@@ -27,8 +27,6 @@ namespace CRMBlazor.Server.Data.CRMBlazorDb
         public DbSet<ProductCategory> ProductCategories { get; set; } = default!;
         public DbSet<Warehouse> Warehouses { get; set; } = default!;
 
-
-        public virtual DbSet<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client> Clients { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ignore owned types
