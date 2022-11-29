@@ -1,0 +1,258 @@
+﻿@using Radzen
+@using Radzen.Blazor
+@using System.Reflection
+
+@typeparam T where T: new()
+
+@if(EnableEdit){
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New" Click="@InsertRow" Disabled=@(itemToInsert is not null) />   
+}
+
+
+
+
+    <RadzenDataGrid class="table table-striped table-dark text-white table-hover" @ref="contextGrid" ValueChanged="(e) => SelectedItem.InvokeAsync(e.FirstOrDefault())" SelectionMode="DataGridSelectionMode.Single" AllowFiltering="true" AllowColumnResize="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="20" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+       EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" Data="@Data" TItem="T" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" ExpandMode="DataGridExpandMode.Single" ShowExpandColumn="DetailsFragment is not null">
+
+
+             <Template Context="item">
+                @if(DetailsFragment is not null){
+                    @DetailsFragment(item)
+                }
+             </Template>
+
+        <Columns>
+
+            @foreach (var propertyInfo in typeof(T).GetProperties())
+           {
+
+            @if (!IsTypeHandled(propertyInfo, currentHandledTypes))
+            {
+                continue;
+            }
+
+            @if (IsExcludedColumn(propertyInfo, ColumnsToExclude, PropertyTypesToExclude))
+            {
+                continue;
+            }
+
+            <RadzenDataGridColumn TItem="T" Property="@propertyInfo.Name" Title="@propertyInfo.Name" Width="140px" >
+
+                <EditTemplate Context="contextItem">
+
+
+           
+
+
+
+                @switch(propertyInfo.PropertyType.Name)
+                {
+                    case "String":
+                    <RadzenTextBox ValueChanged="(e)=> propertyInfo.SetValue(contextItem,e)" Style="display: block" Name="@propertyInfo.Name" Value="@GetValueOrDefault((string)propertyInfo.GetValue(contextItem))"/>
+
+                        break;
+                    case "Int32":
+                     <RadzenNumeric TValue="int" ValueChanged="(e)=> propertyInfo.SetValue(contextItem,e)" Style="display: block" Name="@propertyInfo.Name"  Value="@Convert.ToInt32(propertyInfo.GetValue(contextItem))"/>
+                    
+                        break;
+                    case "Decimal":
+                    <RadzenNumeric TValue="decimal" ValueChanged="(e)=> propertyInfo.SetValue(contextItem,e)" Style="display: block" Name="@propertyInfo.Name"  Value="@Convert.ToDecimal(propertyInfo.GetValue(contextItem))"/>
+
+                        break; 
+                    case "Double":
+                     <RadzenNumeric TValue="double" ValueChanged="(e)=> propertyInfo.SetValue(contextItem,e)" Style="display: block" Name="@propertyInfo.Name"  Value="@Convert.ToDouble(propertyInfo.GetValue(contextItem))"/>
+                        break; 
+                    default:
+                        break;
+                }
+                </EditTemplate>
+            </RadzenDataGridColumn>
+               
+            
+           }
+
+        @if (EnableEdit)
+        {   
+            <RadzenDataGridColumn TItem="T" Context="sampleBlazorModels" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="120px">
+                <Template Context="contextItem">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Class="m-1" Click="@(args => EditRow(contextItem))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="contextItem">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(contextItem))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Class="m-1" Click="@((args) => CancelEdit(contextItem))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="T" Context="contextItem" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="60px">
+                <Template Context="contextItem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1" Click="@(args => DeleteRow(contextItem))"  @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="contextItem">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1" Click="@(args => DeleteRow(contextItem))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        }
+        </Columns>
+    </RadzenDataGrid>
+
+    <style>
+        .rz-datatable-odd > td {
+    background-color: #d1d1d1;
+}
+.rz-datatable-even > td {
+    background-color: #a3a3a3;
+}
+    </style>
+
+@code {
+    [Parameter]
+    public bool EnableEdit { get; set; } = false;
+
+    [Parameter]
+    public IEnumerable<T> Data { get; set; }
+
+    [Parameter]
+    public EventCallback<T> SelectedItem { get; set; }
+
+    [Parameter]
+    public HashSet<string> ColumnsToExclude { get; set; } = new HashSet<string>();
+
+    [Parameter]
+    public HashSet<string> PropertyTypesToExclude { get; set; } = new HashSet<string>();
+
+    [Parameter]
+    public RenderFragment<T>? DetailsFragment { get; set; }
+
+    [Parameter]
+    public EventCallback<T> OnUpdate { get; set; }
+
+    [Parameter]
+    public EventCallback<T> OnDelete { get; set; }
+
+    [Parameter]
+    public EventCallback<T> OnCreate { get; set; }
+
+    [Parameter]
+    public Func<T, Task<bool>> ValidateItem { get; set; }
+
+    private T itemToInsert { get; set; }
+
+    private RadzenDataGrid<T> contextGrid;
+
+    private HashSet<string> currentHandledTypes { get; set; } = new HashSet<string>(){"String","Int32","Decimal","Double"};
+
+
+    async Task EditRow(T item)
+    {
+        await contextGrid.EditRow(item);
+    }
+
+    async Task OnUpdateRow(T item)
+    {
+        if (item.Equals(itemToInsert))
+        {
+            itemToInsert = default(T);
+        }
+
+        await OnUpdate.InvokeAsync(item);
+    }
+
+    async Task SaveRow(T item)
+    {
+        if (item.Equals(itemToInsert))
+        {
+            itemToInsert = default(T);
+        }
+
+        if(!await ValidateItem.Invoke(item)){
+            return;
+        }
+
+        await contextGrid.UpdateRow(item);
+    }
+
+    void CancelEdit(T item)
+    {
+        if (item.Equals(itemToInsert))
+        {
+            itemToInsert = default(T);
+        }
+
+        contextGrid.CancelEditRow(item);
+
+
+    }
+
+    async Task DeleteRow(T item)
+    {
+        if (item.Equals(itemToInsert))
+        {
+            itemToInsert = default(T);
+        }
+
+        await OnDelete.InvokeAsync(item);
+
+        await contextGrid.Reload();
+    }
+
+
+    async Task InsertRow()
+    {
+
+        itemToInsert = new T();
+        await contextGrid.InsertRow(itemToInsert);
+
+    }
+
+
+
+    dynamic GetValueOrDefault<E>(E item)
+    {
+        if(item == null)
+        {
+            return "";
+        }
+        return item;
+    }
+
+    void OnCreateRow(T item)
+    {
+        OnCreate.InvokeAsync(item);
+    }
+
+    void CreateObj()
+    {
+        itemToInsert = new T();
+
+    }
+
+    private bool IsExcludedColumn(PropertyInfo property, HashSet<string> columnsToExclude, HashSet<string> propertyTypesToExclude)
+    {
+        if(columnsToExclude.Contains(property.Name))
+        {
+            return true;
+        }
+
+        if(propertyTypesToExclude.Contains(property.PropertyType.Name)){
+
+            return true;
+        }
+
+        return false;
+    }
+
+  
+
+    private bool IsTypeHandled(PropertyInfo property, HashSet<string> typesHandled)
+    {
+        if(typesHandled.Contains(property.PropertyType.Name))
+        {
+            return true;
+        }
+        return false;
+    }
+}
