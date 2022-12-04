@@ -19,6 +19,7 @@ namespace CRMBlazor.Server.Data.CRMBlazorDb.Config
             {
                 od.Property(e => e.PostCode).HasMaxLength(6);
             });
+
         }
     }
 }

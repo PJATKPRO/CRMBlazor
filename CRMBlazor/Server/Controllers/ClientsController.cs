@@ -23,7 +23,11 @@ namespace CRMBlazor.Server.Controllers
             {
                 return NotFound();
             }
-            return await _context.Clients.ToListAsync();
+            //_context.Clients.RemoveRange(_context.Clients);
+            //_context.Clients.Add(new Shared.Data.CRMBlazorDb.Models.Client() { Name = "mat1", Surname = "kal1", Email = "wp2@wp.pl", PeselOrNip = "11111111111" });
+            //await _context.SaveChangesAsync();
+            var c = await _context.Clients.ToListAsync();
+            return c;
         }
 
         // GET: api/Clients/5

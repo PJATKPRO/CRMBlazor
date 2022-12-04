@@ -790,9 +790,11 @@ namespace CRMBlazor.Server.Migrations
                                 .HasForeignKey("ClientId");
                         });
 
-                    b.Navigation("Address");
+                    b.Navigation("Address")
+                        .IsRequired();
 
-                    b.Navigation("InvestitionAddress");
+                    b.Navigation("InvestitionAddress")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CRMBlazor.Shared.Data.CRMBlazorDb.Models.Company", b =>

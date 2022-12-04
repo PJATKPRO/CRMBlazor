@@ -6,10 +6,19 @@
 @inject HttpClient Http
 
 <PageTitle>Weather forecast</PageTitle>
+<RadzenButton Text="stop" Click="stop"/>
 
+@if(client is not null){
+
+
+    <Component TValue="CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client" Value="client" ValueChanged="__value => client = (CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client)__value"></Component>
+
+}
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
+<cache expires-after="@TimeSpan.FromSeconds(120)">
+   
 
 @if (forecasts == null)
 {
@@ -39,15 +48,25 @@ else
         </tbody>
     </table>
 }
+</cache>
 
 @code {
+    private CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client client;
     private WeatherForecast[]? forecasts;
+    private IEnumerable<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client>? clients;
 
+    void stop()
+    {
+        return;
+    }
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("api/WeatherForecast");
+            clients = await Http.GetFromJsonAsync<IEnumerable<CRMBlazor.Shared.Data.CRMBlazorDb.Models.Client>>("api/Client");
+            client = clients.FirstOrDefault();
+
         }
         catch (AccessTokenNotAvailableException exception)
         {

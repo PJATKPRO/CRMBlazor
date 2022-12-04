@@ -4,16 +4,16 @@ using System.ComponentModel.DataAnnotations;
 namespace CRMBlazor.Shared.Data.CRMBlazorDb.Models
 {
     [Owned]
-    public sealed partial class Address
+    public partial class Address
     {
         [MaxLength(128, ErrorMessage = "Pole {0} nie może mieć więcej niż {1} znaków.")]
-        public string Street { get; set; }
+        public string Street { get; set; } = string.Empty;
 
         [MaxLength(6, ErrorMessage = "Pole {0} nie może mieć więcej niż {1} znaków.")]
         [MinLength(6, ErrorMessage = "Pole {0} nie może mieć mniej niż {1} znaków.")]
-        public string PostCode { get; set; }
+        public string PostCode { get; set; } = string.Empty;
 
         [MaxLength(128, ErrorMessage = "Pole {0} nie może mieć więcej niż {1} znaków.")]
-        public string City { get; set; }
+        public string City { get; set; } = string.Empty;
     }
 }
