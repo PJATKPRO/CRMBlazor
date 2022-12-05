@@ -6,7 +6,7 @@
 
 
 
-@foreach(var property in Value.GetType().GetProperties().Where(x => !x.PropertyType.FullName.ToLower().Contains("collection")))
+@foreach(var property in Value.GetType().GetProperties().Where(x => !x.PropertyType.FullName.ToLower().Contains("collection") && !x.GetMethod.IsVirtual))
 {
 <div class="row">
     <div class="col">

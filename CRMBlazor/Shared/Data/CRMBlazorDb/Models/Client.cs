@@ -30,8 +30,8 @@ namespace CRMBlazor.Shared.Data.CRMBlazorDb.Models
         [MaxLength(500, ErrorMessage = "Pole {0} nie może mieć więcej niż {1} znaków.")]
         public string? Description { get; set; }
 
-        public virtual Address? Address { get; set; } = null!;
-        public virtual Address? InvestitionAddress { get; set; } = null!;
+        public Address? Address { get; set; } = null!;
+        public Address? InvestitionAddress { get; set; } = null!;
         public ICollection<Flow> Flows { get; set; } = null!;
 
     }
