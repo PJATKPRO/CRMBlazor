@@ -475,4 +475,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-CRMBlazor/Server/appsettings.json
+
+CRM/appsettings.json
