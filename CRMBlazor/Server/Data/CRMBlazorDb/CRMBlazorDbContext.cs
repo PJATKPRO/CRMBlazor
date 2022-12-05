@@ -21,6 +21,7 @@ namespace CRMBlazor.Server.Data.CRMBlazorDb
         public DbSet<EmailSnippet> EmailSnippets { get; set; } = default!;
         public DbSet<Flow> Flows { get; set; } = default!;
         public DbSet<FlowAction> FlowActions { get; set; } = default!;
+        public DbSet<FlowCategory> FlowCategory { get; set; } = default!;
         public DbSet<JTFlowActionEmailSnippet> JTFlowActionEmailSnippets { get; set; } = default!;
         public DbSet<JTFlowProduct> JTFlowProducts { get; set; } = default!;
         public DbSet<Product> Products { get; set; } = default!;
@@ -85,6 +86,7 @@ namespace CRMBlazor.Server.Data.CRMBlazorDb
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
 
 
     }
