@@ -1,0 +1,56 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@page "/"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+<PageTitle>Add client</PageTitle>
+
+
+
+
+<EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
+    @*EditForm to komponent formularza wymaga parametru EditContext który jest jako prywatna i zainicializowana w OnParametersSet albo OnParametersSetAsync*@
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <RadzenTextBox @bind-Value="_client.Name"></RadzenTextBox>
+    <RadzenTextBox @bind-Value="_client.Surname"></RadzenTextBox>
+    <RadzenTextBox @bind-Value="_client.PeselOrNip"></RadzenTextBox>
+
+    @if (_client.Address is not null)
+    {
+        <RadzenTextBox @bind-Value="_client.Address.City"></RadzenTextBox>
+        <RadzenTextBox @bind-Value="_client.Address.Street"></RadzenTextBox>
+        <RadzenTextBox @bind-Value="_client.Address.PostCode"></RadzenTextBox>
+
+        <RadzenButton Text="usuń adress" Click="() => _client.Address = null" />
+    }
+    else
+    {
+        <RadzenButton Text="dodaj adress" Click="() => _client.Address = new()" />
+    }
+
+
+    <RadzenButton ButtonType="ButtonType.Submit"></RadzenButton>
+</EditForm>
+
+
+@code {
+
+    private EditContext? editContext;
+    private Client _client = new();
+
+    protected override void OnParametersSet()
+    {
+        editContext = new(_client);
+        base.OnParametersSet();
+    }
+
+    async Task OnSubmit()
+    {
+        using (var db = await _context.CreateDbContextAsync())
+        {
+            db.Clients.Add(_client);
+            await db.SaveChangesAsync();
+        }
+    }
+}
