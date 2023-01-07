@@ -1,36 +1,42 @@
 ﻿@page "/CRM"
-@page "/CRM/Index/{Counter:int?}"
+@*@page "/CRM/Index/{Counter:int?}"*@
+@layout ChildLayout
+@using CRMBlazor.Pages.CRM.Shared
 
 
 <h3>Index</h3>
 
 
-<h1>Title @Counter</h1>
+@*<h1>Title @Counter</h1>
 
 <strong class="alert-danger">@list.Count</strong>
 
 @foreach(var item in list)
 {
     <h4>@item</h4>
-}
+}*@
+
+<AddClient></AddClient>
+<br /><hr /><br />
+<EditClient></EditClient>
 
 
 
 @code {
 
-    [Parameter]
-    public int Counter { get; set; }
+    //[Parameter]
+    //public int Counter { get; set; }
 
-    private List<string> list;
+    //private List<string> list;
 
-    protected override async Task OnParametersSetAsync()
-    {
+    //protected override async Task OnParametersSetAsync()
+    //{
 
-        list = new() { "ab", "cd", "ef" };
+    //    list = new() { "ab", "cd", "ef" };
 
         
 
-    }
+    //}
 
 
 
