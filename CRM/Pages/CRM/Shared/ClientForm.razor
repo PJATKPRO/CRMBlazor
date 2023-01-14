@@ -1,0 +1,87 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+
+<EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
+    @*EditForm to komponent formularza wymaga parametru EditContext który jest jako prywatna i zainicializowana w OnParametersSet albo OnParametersSetAsync*@
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <h3>Dodaj nowego klienta</h3>
+    <ul style="list-style: none;">
+        <li>
+            <h5>Imię</h5>
+            <RadzenTextBox @bind-Value="Value.Name"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Nazwisko</h5>
+            <RadzenTextBox @bind-Value="Value.Surname"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Adres e-mail</h5>
+            <RadzenTextBox @bind-Value="Value.Email"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Pesel lub NIP</h5>
+            <RadzenTextBox @bind-Value="Value.PeselOrNip"></RadzenTextBox>
+        </li>
+    </ul>
+
+    @if (Value.Address is not null)
+    {
+        <AddressForm @bind-Value="Value.Address" />
+
+        <RadzenButton Text="usuń adres zamieszkania" Click="() => Value.Address = null" />
+    }
+    else
+    {
+        <RadzenButton Text="dodaj adres zamieszkania" Click="() => Value.Address = new()" />
+    }
+
+    @if (Value.InvestitionAddress is not null)
+    {
+        <AddressForm @bind-Value="Value.InvestitionAddress" />
+
+        <RadzenButton Text="usuń adres inwestycji" Click="() => Value.InvestitionAddress = null" />
+    }
+    else
+    {
+        <RadzenButton Text="dodaj adres inwestycji" Click="() => Value.InvestitionAddress = new()" />
+    }
+
+
+    <RadzenButton ButtonType="ButtonType.Submit">Zapisz</RadzenButton>
+</EditForm>
+
+@code {
+    /// <summary>
+    /// Value for form
+    /// </summary>
+    [Parameter]
+    public Client? Value { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the value changed.
+    /// </summary>
+    /// <value>The value changed.</value>
+    [Parameter]
+    public EventCallback<Client> Submitted { get; set; }
+
+    private EditContext? editContext;
+
+
+    protected override void OnParametersSet()
+    {
+        if(Value == null){
+            Value = new();
+        }
+
+        editContext = new (Value);
+        base.OnParametersSet();
+    }
+
+    private async Task OnSubmit(){
+        await Submitted.InvokeAsync(Value);
+    }
+        
+}

@@ -2,103 +2,30 @@
 @using CRMBlazor.Data.CRMBlazorDb;
 @using Microsoft.EntityFrameworkCore;
 
-
-
-
-<EditForm EditContext="editContext" OnValidSubmit="OnSubmit" >
-    @*EditForm to komponent formularza wymaga parametru EditContext który jest jako prywatna i zainicializowana w OnParametersSet albo OnParametersSetAsync*@
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <h1>Dodaj nowego klienta</h1>
-    <ul style="list-style: none;">
-        <li>
-            <h3>Imię</h3>
-            <RadzenTextBox @bind-Value="_client.Name"></RadzenTextBox>
-        </li>
-        <li>
-            <h3>Nazwisko</h3>
-            <RadzenTextBox @bind-Value="_client.Surname"></RadzenTextBox>
-        </li>
-        <li>
-            <h3>Adres E-mail</h3>
-            <RadzenTextBox @bind-Value="_client.Email"></RadzenTextBox>
-        </li>
-        <li>
-            <h3>Pesel lub NIP</h3>
-            <RadzenTextBox @bind-Value="_client.PeselOrNip"></RadzenTextBox>
-        </li>
-    </ul>
-
-    @if (_client.Address is not null)
-    {
-        <h2>Adres Zamieszkania</h2>
-        <ul>
-            <h3>Nazwa miejscowości</h3>
-            <RadzenTextBox @bind-Value="_client.Address.City"></RadzenTextBox>
-        </ul>
-        <ul>
-            <h3>Ulica</h3>
-            <RadzenTextBox @bind-Value="_client.Address.Street"></RadzenTextBox>
-        </ul>
-        <ul>
-            <h3>Kod pocztowy</h3>
-            <RadzenTextBox @bind-Value="_client.Address.PostCode"></RadzenTextBox>
-        </ul>
-
-        <RadzenButton Text="usuń adres zamieszkania" Click="() => _client.Address = null" />
-    }
-    else
-    {
-        <RadzenButton Text="dodaj adres zamieszkania" Click="() => _client.Address = new()" />
-    }
-
-    @if (_client.InvestitionAddress is not null)
-    {
-        <h2>Adres Inwestycji</h2>
-        <ul>
-            <h3>Nazwa miejscowości</h3>
-            <RadzenTextBox @bind-Value="_client.InvestitionAddress.City"></RadzenTextBox>
-        </ul>
-        <ul>
-            <h3>Ulica</h3>
-            <RadzenTextBox @bind-Value="_client.InvestitionAddress.Street"></RadzenTextBox>
-        </ul>
-        <ul>
-            <h3>Kod pocztowy</h3>
-            <RadzenTextBox @bind-Value="_client.InvestitionAddress.PostCode"></RadzenTextBox>
-        </ul>
-
-        <RadzenButton Text="usuń adres inwestycji" Click="() => _client.InvestitionAddress = null" />
-    }
-    else
-    {
-        <RadzenButton Text="dodaj adres inwestycji" Click="() => _client.InvestitionAddress = new()" />
-    }
-
-
-    <RadzenButton ButtonType="ButtonType.Submit">Zapisz</RadzenButton>
-</EditForm>
+<ClientForm Value="Value" Submitted="OnSubmit" />
 
 
 @code {
+    [Parameter]
+    public Client Value { get; set; }
 
     private EditContext? editContext;
-    private Client _client = new();
+
 
     protected override void OnParametersSet()
     {
-        editContext = new(_client);
+        editContext = new(Value);
         base.OnParametersSet();
     }
 
-    async Task OnSubmit()
+    async Task OnSubmit(Client client)
     {
 
         try
         {
             using (var db = await _context.CreateDbContextAsync())
             {
-                db.Clients.Add(_client);
+                db.Clients.Add(client);
                 await db.SaveChangesAsync();
             }
         } catch(Exception x)
