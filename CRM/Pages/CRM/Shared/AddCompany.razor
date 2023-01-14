@@ -2,71 +2,30 @@
 @using CRMBlazor.Data.CRMBlazorDb;
 @using Microsoft.EntityFrameworkCore;
 
-<EditForm EditContext="editContext" OnValidSubmit="OnSubmit" >
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <h3>Dodaj Firmę</h3>
-    <ul style="list-style: none;">
-        <li>
-            <h5>Nazwa</h5>
-            <RadzenTextBox @bind-Value="_company.Name"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>Opis</h5>
-            <RadzenTextArea @bind-Value="_company.Description"></RadzenTextArea>
-        </li>
-        <li>
-            <h5>Adres e-mail</h5>
-            <RadzenTextBox @bind-Value="_company.Email"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>Numer telefonu</h5>
-            <RadzenTextBox @bind-Value="_company.Phone"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>NIP</h5>
-            <RadzenTextBox @bind-Value="_company.Nip"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>KRS</h5>
-            <RadzenTextBox @bind-Value="_company.Krs"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>REGON</h5>
-            <RadzenTextBox @bind-Value="_company.Regon"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>Dodatkowe informacje</h5>
-            <RadzenTextArea @bind-Value="_company.AdditionalInfo"></RadzenTextArea>
-        </li>
-        <li>
-            <h5>Adres</h5>
-        </li>
-    </ul>
-
-</EditForm>
-
-
+<h3>Dodaj Firmę</h3>
+<CompanyForm Submitted="OnSubmit" />
 
 
 @code {
+    public Company Value;
+
     private EditContext? editContext;
-    private Company _company = new();
+
 
     protected override void OnParametersSet()
     {
-        editContext = new(_company);
-        base.OnParametersSet();
+        Value = new();
+        editContext = new(Value);
     }
 
-    async Task OnSubmit()
+    async Task OnSubmit(Company company)
     {
 
         try
         {
             using (var db = await _context.CreateDbContextAsync())
             {
-                db.Companies.Add(_company);
+                db.Companies.Add(company);
                 await db.SaveChangesAsync();
             }
         }

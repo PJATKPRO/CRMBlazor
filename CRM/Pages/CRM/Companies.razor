@@ -1,0 +1,41 @@
+﻿@page "/CRM/Companies"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using CRMBlazor.Helpers;
+@using CRMBlazor.Pages.CRM.Shared;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
+
+<h3>Firmy</h3>
+
+@if (CompanyList == null)
+{
+    <h3>loading...</h3>
+}
+else
+{
+    <ul>
+        @foreach (var company in CompanyList)
+        {
+            <li>
+                <h4> @company.Name</h4> <button>edytuj</button>
+
+            </li>
+        }
+    </ul>
+}
+
+<AddCompany></AddCompany>
+
+
+@code {
+    private HashSet<Company> CompanyList;
+    //private Type mode;
+    protected override async Task OnParametersSetAsync()
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            CompanyList = db.Companies.ToHashSet();
+        }
+    }
+
+}

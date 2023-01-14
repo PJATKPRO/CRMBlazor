@@ -2,23 +2,30 @@
 @using CRMBlazor.Data.CRMBlazorDb;
 @using Microsoft.EntityFrameworkCore;
 
-@*<h3>Zmień dane @Value.Name @Value.Surname</h3>*@
-<ClientForm Value="Value" Submitted="OnSubmit" />
+<h3>Dodaj nowy produkt</h3>
+<ProductForm Submitted="OnSubmit" />
 
 
 @code {
-    [Parameter]
-    public Client Value { get; set; }
+    public Product Value;
+
+    private EditContext? editContext;
 
 
-    async Task OnSubmit(Client client)
+    protected override void OnParametersSet()
+    {
+        Value = new();
+        editContext = new(Value);
+    }
+
+    async Task OnSubmit(Product product)
     {
 
         try
         {
             using (var db = await _context.CreateDbContextAsync())
             {
-                db.Clients.Update(client);
+                db.Products.Add(product);
                 await db.SaveChangesAsync();
             }
         }
@@ -27,5 +34,4 @@
             Console.WriteLine(x);
         }
     }
-
 }

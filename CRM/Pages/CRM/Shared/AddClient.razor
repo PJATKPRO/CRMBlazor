@@ -2,20 +2,20 @@
 @using CRMBlazor.Data.CRMBlazorDb;
 @using Microsoft.EntityFrameworkCore;
 
-<ClientForm Value="Value" Submitted="OnSubmit" />
+<h3>Dodaj nowego klienta</h3>
+<ClientForm Submitted="OnSubmit" />
 
 
 @code {
-    [Parameter]
-    public Client Value { get; set; }
+    public Client Value;
 
     private EditContext? editContext;
 
 
     protected override void OnParametersSet()
     {
+        Value = new();
         editContext = new(Value);
-        base.OnParametersSet();
     }
 
     async Task OnSubmit(Client client)

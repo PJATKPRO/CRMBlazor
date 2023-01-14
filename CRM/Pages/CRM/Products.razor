@@ -1,0 +1,40 @@
+﻿@page "/CRM/Products"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using CRMBlazor.Helpers;
+@using CRMBlazor.Pages.CRM.Shared;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
+
+<h3>Produkty</h3>
+
+@if (ProductList == null)
+{
+    <h3>loading...</h3>
+}
+else
+{
+    <ul>
+        @foreach (var product in ProductList)
+        {
+            <li>
+                <h4> @product.ProductName</h4> <button>edytuj</button>
+
+            </li>
+        }
+    </ul>
+}
+
+<AddProduct></AddProduct>
+
+
+@code {
+    private HashSet<Product> ProductList;
+    //private Type mode;
+    protected override async Task OnParametersSetAsync()
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            ProductList = db.Products.ToHashSet();
+        }
+    }
+}

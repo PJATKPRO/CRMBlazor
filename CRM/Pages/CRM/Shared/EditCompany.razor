@@ -2,23 +2,23 @@
 @using CRMBlazor.Data.CRMBlazorDb;
 @using Microsoft.EntityFrameworkCore;
 
-@*<h3>Zmień dane @Value.Name @Value.Surname</h3>*@
-<ClientForm Value="Value" Submitted="OnSubmit" />
+@*<h3>Zmień dane @Value.Name</h3>*@
+<CompanyForm Value="Value" Submitted="OnSubmit" />
 
 
 @code {
     [Parameter]
-    public Client Value { get; set; }
+    public Company Value { get; set; }
 
 
-    async Task OnSubmit(Client client)
+    async Task OnSubmit(Company company)
     {
 
         try
         {
             using (var db = await _context.CreateDbContextAsync())
             {
-                db.Clients.Update(client);
+                db.Companies.Update(company);
                 await db.SaveChangesAsync();
             }
         }

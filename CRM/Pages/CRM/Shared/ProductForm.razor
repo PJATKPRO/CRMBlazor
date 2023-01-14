@@ -1,0 +1,74 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+
+<EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
+    @*EditForm to komponent formularza wymaga parametru EditContext który jest jako prywatna i zainicializowana w OnParametersSet albo OnParametersSetAsync*@
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <ul style="list-style: none;">
+        <li>
+            <h5>Nazwa Produktu</h5>
+            <RadzenTextBox @bind-Value="Value.ProductName"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Firma</h5>
+            <RadzenTextBox @bind-Value="Value.Company"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Opis</h5>
+            <RadzenTextArea @bind-Value="Value.Description"></RadzenTextArea>
+        </li>
+        <li>
+            <h5>Cena zakupu</h5>
+            <RadzenNumeric TValue="decimal" @bind-Value="Value.PurchasePrice"></RadzenNumeric>
+        </li>
+        <li>
+            <h5>Cena Sprzedaży</h5>
+            <RadzenNumeric TValue="decimal" @bind-Value="Value.SellingPrice"></RadzenNumeric>
+        </li>
+        <li>
+            <h5>Gwarancja (lat)</h5>
+            <RadzenNumeric TValue="int" @bind-Value="Value.Warranty"></RadzenNumeric>
+        </li>
+    </ul>
+
+    <RadzenButton ButtonType="ButtonType.Submit">Zapisz</RadzenButton>
+</EditForm>
+
+
+
+@code {
+    /// <summary>
+    /// Value for form
+    /// </summary>
+    [Parameter]
+    public Product? Value { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the value changed.
+    /// </summary>
+    /// <value>The value changed.</value>
+    [Parameter]
+    public EventCallback<Product> Submitted { get; set; }
+
+    private EditContext? editContext;
+
+
+    protected override void OnParametersSet()
+    {
+        if (Value == null)
+        {
+            Value = new();
+        }
+
+        editContext = new(Value);
+        base.OnParametersSet();
+    }
+
+    private async Task OnSubmit()
+    {
+        await Submitted.InvokeAsync(Value);
+    }
+}
