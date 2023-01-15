@@ -1,0 +1,37 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+<h3>Dodaj Firmę</h3>
+<CompanyForm Submitted="OnSubmit" />
+
+
+@code {
+    public Company Value;
+
+    private EditContext? editContext;
+
+
+    protected override void OnParametersSet()
+    {
+        Value = new();
+        editContext = new(Value);
+    }
+
+    async Task OnSubmit(Company company)
+    {
+
+        try
+        {
+            using (var db = await _context.CreateDbContextAsync())
+            {
+                db.Companies.Add(company);
+                await db.SaveChangesAsync();
+            }
+        }
+        catch (Exception x)
+        {
+            Console.WriteLine(x);
+        }
+    }
+}

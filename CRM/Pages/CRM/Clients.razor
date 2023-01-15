@@ -1,0 +1,41 @@
+﻿@page "/CRM/Clients"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using CRMBlazor.Helpers;
+@using CRMBlazor.Pages.CRM.Shared;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
+
+<h3>Klienci</h3>
+
+@if (ClientList == null)
+{
+    <h3>loading...</h3>
+}
+else
+{
+    <ul>
+        @foreach (var client in ClientList)
+            {
+                <li>
+                <h4> @client.Name @client.Surname @client.PeselOrNip </h4> 
+                <RadzenButton Text="Edytuj" />
+                @*<DynamicComponent Type="mode" Value="client"></DynamicComponent>*@
+            </li>
+            }
+    </ul>
+}
+
+<AddClient></AddClient>
+
+@code {
+    private HashSet<Client> ClientList;
+    //private Type mode; 
+    protected override async Task OnParametersSetAsync()
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            ClientList = db.Clients.ToHashSet();
+        }
+    }
+
+}
