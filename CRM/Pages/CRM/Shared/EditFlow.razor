@@ -1,0 +1,31 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+@*<h3>Edytuj ofertę nr. @Value.OfferNr</h3>*@
+<FlowForm Value="Value" Submitted="OnSubmit" />
+
+
+@code {
+    [Parameter]
+    public Flow Value { get; set; }
+
+
+    async Task OnSubmit(Flow flow)
+    {
+
+        try
+        {
+            using (var db = await _context.CreateDbContextAsync())
+            {
+                db.Flows.Update(flow);
+                await db.SaveChangesAsync();
+            }
+        }
+        catch (Exception x)
+        {
+            Console.WriteLine(x);
+        }
+    }
+
+}
