@@ -17,9 +17,13 @@ else
         @foreach (var client in ClientList)
             {
                 <li>
-                <h4> @client.Name @client.Surname @client.PeselOrNip </h4> 
-                <RadzenButton Text="Edytuj" />
-                @*<DynamicComponent Type="mode" Value="client"></DynamicComponent>*@
+                <h4> @client.Name @client.Surname @client.PeselOrNip </h4>
+                <RadzenButton Text="Edytuj" Click="() => type = typeof(ClientForm)"></RadzenButton>
+
+                @if (type != null)
+                {
+                    <DynamicComponent Type="@type" Value="@client"> </DynamicComponent>
+                }
             </li>
             }
     </ul>
@@ -37,5 +41,11 @@ else
             ClientList = db.Clients.ToHashSet();
         }
     }
+
+    private Type type;
+    private HashSet<Type> Components = new HashSet<Type>()
+    {
+            typeof(ClientForm)
+    };
 
 }

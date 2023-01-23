@@ -17,7 +17,7 @@ else
         @foreach (var company in CompanyList)
         {
             <li>
-                <h4> @company.Name</h4> <button>edytuj</button>
+                <h4> @company.Name</h4>
 
             </li>
         }
@@ -37,5 +37,11 @@ else
             CompanyList = db.Companies.ToHashSet();
         }
     }
+
+    private Type type;
+    private HashSet<Type> Components = new HashSet<Type>()
+    {
+            typeof(Clients)
+    };
 
 }
