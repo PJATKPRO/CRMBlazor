@@ -1,0 +1,29 @@
+﻿using CRMBlazor.Domain.Base.Common.Models;
+using CRMBlazor.Domain.Flows.ValueObjects;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace CRMBlazor.Domain.Flows.Entities
+{
+    public sealed class FlowCategory : Entity<FlowCategoryId>
+    {
+
+
+        public static FlowCategory Create(FlowCategoryId id, string name, string description, Color color)
+        {
+            return new FlowCategory(id, name, description, color);
+        }
+        private FlowCategory(FlowCategoryId id, string name, string description, Color color) : base(id)
+        {
+            Name = name;
+            Description = description;
+            Color = color;
+        }
+
+        public string Name { get; }
+        public string? Description { get; }
+        public Color Color { get; private set; }
+        private FlowCategory() { }
+    }
+}
