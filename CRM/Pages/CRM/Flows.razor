@@ -1,0 +1,112 @@
+﻿@page "/CRM/Flows"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using CRMBlazor.Helpers;
+@using CRMBlazor.Pages.CRM.Shared;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
+
+@inject DialogService DialogService
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        color: initial;
+        text-decoration: none;
+    }
+
+    .flow_timeline {
+        display: flex;
+        flex-direction: row;
+        height: 55px;
+        overflow-y: hidden;
+        overflow-x: scroll;
+        /* Track */
+        /* Handle */
+        /* Handle on hover */
+    }
+
+        .flow_timeline::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .flow_timeline::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .flow_timeline::-webkit-scrollbar-thumb {
+            border-radius: 2.5px;
+            background: #888;
+        }
+
+            .flow_timeline::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+        .flow_timeline .flow_timeline_element {
+            position: relative;
+            min-width: @(width)px;
+            padding: 5px 5px 5px @(margin_left)px;
+        }
+
+            .flow_timeline .flow_timeline_element h2 {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 18px;
+                font-weight: 800;
+            }
+
+            .flow_timeline .flow_timeline_element h3 {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12px;
+            }
+
+            .flow_timeline .flow_timeline_element::before {
+                content: "";
+                position: absolute;
+                display: inline;
+                border-top: 25px solid transparent;
+                border-bottom: 25px solid transparent;
+                border-left: 20px solid;
+                border-left-color: inherit;
+                margin-top: -5px;
+                margin-left: @(width - margin_left)px;
+                z-index: 1; 
+            }
+
+            .flow_timeline .flow_timeline_element:last-child::before {
+                display: none;
+            }
+</style>
+
+
+<div class="flow_timeline">
+    @foreach (var category in FlowCaterories)
+    {
+        <div class="flow_timeline_element" style="border-color: @category.Color; background-color: @category.Color;">
+        <a href="#">
+            <h2>@category.Flows.Count</h2>
+            <h3>@category.Name</h3>
+        </a>
+    </div>
+    }
+    
+</div>
+
+@code {
+    private HashSet<FlowCategory> FlowCaterories;
+
+    private int width = 170;
+    private int margin_left = 40;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            FlowCaterories = db.FlowCategory.AsNoTracking().ToHashSet();
+        }
+    }
+
+}

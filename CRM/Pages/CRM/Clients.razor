@@ -5,6 +5,15 @@
 @using Microsoft.EntityFrameworkCore;
 @inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
 
+@inject DialogService DialogService
+
+<style>
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+</style>
+
 <h3>Klienci</h3>
 
 @if (ClientList == null)
@@ -19,17 +28,19 @@ else
                 <li>
                 <h4> @client.Name @client.Surname @client.PeselOrNip </h4>
                 <RadzenButton Text="Edytuj" Click="() => selectedClient = client"></RadzenButton>
-
+                 
             </li>
             }
     </ul>
     @if (selectedClient is not null)
     {
-        <RadzenButton Icon="close"  Click="() => selectedClient = null"/>
+        
+        <RadzenButton Icon="close"  Click="() => selectedClient = null" style="z-index: 4; position: absolute; top: 20px; right: 20px;"/>
         <ClientForm Value="selectedClient" Submitted="(_value) => {Update(_value); selectedClient = null;}"></ClientForm>
     }
 }
-<AddClient></AddClient>
+
+<RadzenButton Text="dodaj klienta" Click="() => selectedClient = new()" />
 
 @code {
     private HashSet<Client> ClientList;
@@ -42,7 +53,6 @@ else
             ClientList = db.Clients.AsNoTracking().ToHashSet();
         }
     }
-
 
 
     private async Task Update(Client client)
