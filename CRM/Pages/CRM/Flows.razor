@@ -8,11 +8,6 @@
 @inject DialogService DialogService
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
     a {
         color: initial;
         text-decoration: none;
@@ -21,15 +16,15 @@
     .flow_timeline {
         display: flex;
         flex-direction: row;
-        height: 55px;
+        height: 50px;
         overflow-y: hidden;
-        overflow-x: scroll;
+        /*overflow-x: scroll;*/
         /* Track */
         /* Handle */
         /* Handle on hover */
     }
 
-        .flow_timeline::-webkit-scrollbar {
+        /*.flow_timeline::-webkit-scrollbar {
             height: 5px;
         }
 
@@ -44,7 +39,7 @@
 
             .flow_timeline::-webkit-scrollbar-thumb:hover {
                 background: #555;
-            }
+            }*/
 
         .flow_timeline .flow_timeline_element {
             position: relative;
@@ -92,7 +87,12 @@
         </a>
     </div>
     }
-    
+</div>
+
+<div class="flow_table">
+    <table>
+        <tr></tr>
+    </table>
 </div>
 
 @code {
@@ -100,6 +100,8 @@
 
     private int width = 170;
     private int margin_left = 40;
+
+    private int[] Colors = {0, 0, 0}; 
 
     protected override async Task OnParametersSetAsync()
     {
