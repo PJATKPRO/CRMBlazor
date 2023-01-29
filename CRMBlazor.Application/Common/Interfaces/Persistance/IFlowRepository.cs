@@ -1,6 +1,7 @@
 ﻿using CRMBlazor.Domain.Clients.ValueObjects;
 using CRMBlazor.Domain.EmailSnippets.ValueObjects;
 using CRMBlazor.Domain.Flows;
+using CRMBlazor.Domain.Flows.Entities;
 using CRMBlazor.Domain.Flows.ValueObjects;
 using CRMBlazor.Domain.Warehouses.ValueObjects;
 using System;
@@ -35,6 +36,24 @@ namespace CRMBlazor.Application.Common.Interfaces.Persistance
         Task Add(Flow flow);
         Task Delete(FlowId id);
         Task Update(Flow flow);
+        Task<Flow> ChangeFlowCategory(FlowId flowId, FlowCategoryId flowCategoryId);
+
+
+        Task<FlowCategory> CreateFlowCategory(FlowCategoryId id, string name, string? description, Color color);
+        Task<FlowCategory> GetFlowCategory(FlowCategoryId id);
+        Task<IReadOnlyList<FlowCategory>> GetAllFlowCategories();
+        Task AddFlowCategory(FlowCategory flowCategory);
+        Task DeleteFlowCategory(FlowCategoryId id);
+        Task UpdateFlowCategory(FlowCategory flowCategory);
+        Task<Flow> ChangeFlowAction(FlowCategoryId flowCategoryId, FlowActionId flowActionId);
+
+
+        Task<FlowAction> CreateFlowAction(FlowActionId id, string type);
+        Task<FlowAction> GetFlowAction(FlowActionId id);
+        Task<IReadOnlyList<FlowAction>> GetAllFlowActions();
+        Task AddFlowAction(FlowAction flowAction);
+        Task DeleteFlowAction(FlowActionId id);
+        Task UpdateFlowAction(FlowAction flowAction);
 
 
     }

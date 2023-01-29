@@ -10,11 +10,11 @@ namespace CRMBlazor.Domain.Flows.Entities
     {
 
 
-        public static FlowCategory Create(FlowCategoryId id, string name, string description, Color color)
+        public static FlowCategory Create(FlowCategoryId id, string name, string? description, Color color)
         {
             return new FlowCategory(id, name, description, color);
         }
-        private FlowCategory(FlowCategoryId id, string name, string description, Color color) : base(id)
+        private FlowCategory(FlowCategoryId id, string name, string? description, Color color) : base(id)
         {
             Name = name;
             Description = description;
