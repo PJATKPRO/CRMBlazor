@@ -1,6 +1,7 @@
 ﻿using CRMBlazor.Domain.Base.Common.Models;
 using CRMBlazor.Domain.Base.Common.ValueObjects;
 using CRMBlazor.Domain.Companies;
+using CRMBlazor.Domain.Companies.ValueObjects;
 using CRMBlazor.Domain.Products;
 using CRMBlazor.Domain.Products.ValueObjects;
 using CRMBlazor.Domain.Warehouses.ValueObjects;
@@ -14,9 +15,9 @@ namespace CRMBlazor.Domain.Warehouses
     public sealed class Warehouse : AggregateRoot<WarehouseId>
     {
 
-        public static Warehouse Create(WarehouseId id, string name, Address address, Company company)
+        public static Warehouse Create(WarehouseId id, string name, Address address, CompanyId companyId)
         {
-            return new Warehouse(id, name, address, company);
+            return new Warehouse(id, name, address, companyId);
         }
 
         public void AddProduct(Product product)
@@ -36,11 +37,11 @@ namespace CRMBlazor.Domain.Warehouses
             _products.Remove(product);
         }
 
-        private Warehouse(WarehouseId id, string name, Address address, Company company) : base(id)
+        private Warehouse(WarehouseId id, string name, Address address, CompanyId companyId) : base(id)
         {
             Name = name;
             Address = address;
-            Company = company;
+            CompanyId = companyId;
         }
 
 
@@ -49,7 +50,7 @@ namespace CRMBlazor.Domain.Warehouses
         public IReadOnlyList<Product> Products => _products.AsReadOnly();
         public string Name { get; } = null!;
         public Address Address { get; private set; } = null!;
-        public Company Company { get; }
+        public CompanyId CompanyId { get; }
 
         private Warehouse() { }
 

@@ -10,12 +10,12 @@ namespace CRMBlazor.Domain.Companies
     public sealed class Company : AggregateRoot<CompanyId>
     {
 
-        public static Company Create(CompanyId id, string name, string description, Address address, string? email, string? phone, string? nip, string? krs, string? regon, string? additionalInfo, CompanyType type)
+        public static Company Create(CompanyId id, string name, string description, Address address, string? email, string? phone, string? nip, string? krs, string? regon, string? additionalInfo, CompanyTypeId typeId)
         {
-            return new Company(id, name, description, address, email, phone, nip, krs, regon, additionalInfo, type);
+            return new Company(id, name, description, address, email, phone, nip, krs, regon, additionalInfo, typeId);
         }
 
-        private Company(CompanyId id, string name, string description, Address address, string? email, string? phone, string? nip, string? krs, string? regon, string? additionalInfo, CompanyType type) : base(id)
+        private Company(CompanyId id, string name, string description, Address address, string? email, string? phone, string? nip, string? krs, string? regon, string? additionalInfo, CompanyTypeId typeId) : base(id)
         {
             Name = name;
             Description = description;
@@ -26,7 +26,7 @@ namespace CRMBlazor.Domain.Companies
             Krs = krs;
             Regon = regon;
             AdditionalInfo = additionalInfo;
-            Type = type;
+            TypeId = typeId;
         }
 
 
@@ -43,7 +43,7 @@ namespace CRMBlazor.Domain.Companies
         public string? Krs { get; }
         public string? Regon { get; }
         public string? AdditionalInfo { get; private set; }
-        public CompanyType Type { get; }
+        public CompanyTypeId TypeId { get; }
 
     }
 }
