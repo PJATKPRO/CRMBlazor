@@ -2,7 +2,8 @@
 using CRMBlazor.Domain.Base.Common.ValueObjects;
 using CRMBlazor.Domain.Companies.Entities;
 using CRMBlazor.Domain.Companies.ValueObjects;
-
+using CRMBlazor.Domain.Warehouses;
+using System.Collections.Generic;
 
 namespace CRMBlazor.Domain.Companies
 {
@@ -28,6 +29,11 @@ namespace CRMBlazor.Domain.Companies
             Type = type;
         }
 
+
+
+
+        private List<Warehouse> _warehouses = new List<Warehouse>();
+        public IReadOnlyList<Warehouse> Warehouses => _warehouses.AsReadOnly();
         public string Name { get; } = null!;
         public string Description { get; private set; }
         public Address Address { get; private set; }

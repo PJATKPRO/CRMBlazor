@@ -1,6 +1,7 @@
 ﻿using CRMBlazor.Domain.Base.Common.Models;
 using CRMBlazor.Domain.Base.Common.ValueObjects;
 using CRMBlazor.Domain.Clients.ValueObjects;
+using CRMBlazor.Domain.Flows;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -39,6 +40,8 @@ namespace CRMBlazor.Domain.Clients
 
         public Address? Address { get; set; } = null!;
         public Address? InvestitionAddress { get; set; } = null!;
+        private List<Flow> _flows = new List<Flow>();
+        public IReadOnlyCollection<Flow> Flows => _flows.AsReadOnly();
         private Client() { }
 
 

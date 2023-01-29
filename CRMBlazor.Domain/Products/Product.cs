@@ -1,6 +1,8 @@
 ﻿using CRMBlazor.Domain.Base.Common.Models;
 using CRMBlazor.Domain.Base.Common.ValueObjects;
 using CRMBlazor.Domain.Products.ValueObjects;
+using CRMBlazor.Domain.Warehouses;
+using CRMBlazor.Domain.Warehouses.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +17,16 @@ namespace CRMBlazor.Domain.Products
         public static Product Create(ProductId id, string productName, string? company, string? description, Price purchasePrice, Price sellingPrice, int warranty)
         {
             return new Product(id, productName, company, description, purchasePrice, sellingPrice, warranty);
+        }
+
+        public void UpdatePurchasePrice(Price price)
+        {
+            PurchasePrice = price;
+        }
+
+        public void UpdateSellingPrice(Price price)
+        {
+            SellingPrice = price;
         }
 
 

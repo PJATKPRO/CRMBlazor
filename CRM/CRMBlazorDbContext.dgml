@@ -185,12 +185,12 @@
     <Link Source="Client" Target="Client.Name" Category="Contains" />
     <Link Source="Client" Target="Client.PeselOrNip" Category="Contains" />
     <Link Source="Client" Target="Client.Surname" Category="Contains" />
-    <Link Source="Client.Address#Address" Target="Client" Category="Foreign Key" Annotations="" Bounds="440.671513255377,605.683682763672,73.0298415779737,185.73288212454" From="Client.Address#Address.ClientId" IsUnique="True" Label="1:1" LabelBounds="481.196771699311,687.323834889209,15.54,15.96" Name="Client.Address#Address -&gt; Client" To="Client.Id" />
+    <Link Source="Client.Address#Address" Target="Client" Category="Foreign Key" Annotations="" Bounds="440.671372300145,605.683324279785,73.0300894915734,185.733512629912" From="Client.Address#Address.ClientId" IsUnique="True" Label="1:1" LabelBounds="481.196754700879,687.323791658008,15.54,15.96" Name="Client.Address#Address -&gt; Client" To="Client.Id" />
     <Link Source="Client.Address#Address" Target="Client.Address#Address.City" Category="Contains" />
     <Link Source="Client.Address#Address" Target="Client.Address#Address.ClientId" Category="Contains" />
     <Link Source="Client.Address#Address" Target="Client.Address#Address.PostCode" Category="Contains" />
     <Link Source="Client.Address#Address" Target="Client.Address#Address.Street" Category="Contains" />
-    <Link Source="Client.InvestitionAddress#Address" Target="Client" Category="Foreign Key" Annotations="" Bounds="238.588388451293,610.051083505854,190.243772900154,183.493277059213" From="Client.InvestitionAddress#Address.ClientId" IsUnique="True" Label="1:1" LabelBounds="335.0987182564,684.398199527865,15.54,15.96" Name="Client.InvestitionAddress#Address -&gt; Client" To="Client.Id" />
+    <Link Source="Client.InvestitionAddress#Address" Target="Client" Category="Foreign Key" Annotations="" Bounds="238.588127520207,610.050831833491,190.244315860065,183.493800753061" From="Client.InvestitionAddress#Address.ClientId" IsUnique="True" Label="1:1" LabelBounds="335.09872880527,684.398209702426,15.54,15.96" Name="Client.InvestitionAddress#Address -&gt; Client" To="Client.Id" />
     <Link Source="Client.InvestitionAddress#Address" Target="Client.InvestitionAddress#Address.City" Category="Contains" />
     <Link Source="Client.InvestitionAddress#Address" Target="Client.InvestitionAddress#Address.ClientId" Category="Contains" />
     <Link Source="Client.InvestitionAddress#Address" Target="Client.InvestitionAddress#Address.PostCode" Category="Contains" />
@@ -208,8 +208,8 @@
     <Link Source="Company" Target="Company.Phone" Category="Contains" />
     <Link Source="Company" Target="Company.Regon" Category="Contains" />
     <Link Source="Company" Target="Company.Warehouses" Category="Contains" />
-    <Link Source="Company" Target="CompanyType" Category="Foreign Key" Annotations="" Bounds="2454.0764145526,1368.97264385167,5.50965889450208,29.262762196747" From="Company.CompanyTypeId" IsUnique="False" Label="1:*" LabelBounds="2460.83185079964,1375.25396270426,14.0733333333333,15.96" Name="Company -&gt; CompanyType" To="CompanyType.Id" />
-    <Link Source="Company.Address#Address" Target="Company" Category="Foreign Key" Annotations="" Bounds="2454.32825938403,977.380212613925,13.1015650308818,72.9342187188452" From="Company.Address#Address.CompanyId" IsUnique="True" Label="1:1" LabelBounds="2464.87954623222,1006.22093269396,15.54,15.9599999999999" Name="Company.Address#Address -&gt; Company" To="Company.Id" />
+    <Link Source="Company" Target="CompanyType" Category="Foreign Key" Annotations="" Bounds="2454.0764145526,1368.97264385167,5.50965889450163,29.2627621967417" From="Company.CompanyTypeId" IsUnique="False" Label="1:*" LabelBounds="2460.83185079964,1375.25396270426,14.0733333333333,15.96" Name="Company -&gt; CompanyType" To="CompanyType.Id" />
+    <Link Source="Company.Address#Address" Target="Company" Category="Foreign Key" Annotations="" Bounds="2454.32825938403,977.380012613925,13.1016009579571,72.9344187188502" From="Company.Address#Address.CompanyId" IsUnique="True" Label="1:1" LabelBounds="2464.87956419575,1006.22083269396,15.54,15.9599999999999" Name="Company.Address#Address -&gt; Company" To="Company.Id" />
     <Link Source="Company.Address#Address" Target="Company.Address#Address.City" Category="Contains" />
     <Link Source="Company.Address#Address" Target="Company.Address#Address.CompanyId" Category="Contains" />
     <Link Source="Company.Address#Address" Target="Company.Address#Address.PostCode" Category="Contains" />
@@ -224,7 +224,7 @@
     <Link Source="EmailSnippet" Target="EmailSnippet.Id" Category="Contains" />
     <Link Source="EmailSnippet" Target="EmailSnippet.JTFlowActions" Category="Contains" />
     <Link Source="EmailSnippet" Target="EmailSnippet.Title" Category="Contains" />
-    <Link Source="Flow" Target="Client" Category="Foreign Key" Annotations="" Bounds="769.441728468489,627.779223455374,445.310333202451,205.475979379053" From="Flow.ClientId" IsUnique="False" Label="1:*" LabelBounds="1100.78343337216,682.569498628627,14.0733333333333,15.96" Name="Flow -&gt; Client" To="Client.Id" />
+    <Link Source="Flow" Target="Client" Category="Foreign Key" Annotations="" Bounds="769.441524611067,627.779134084904,445.310730744769,205.47616281382" From="Flow.ClientId" IsUnique="False" Label="1:*" LabelBounds="1100.78352456567,682.569456549933,14.0733333333333,15.96" Name="Flow -&gt; Client" To="Client.Id" />
     <Link Source="Flow" Target="Flow.Category" Category="Contains" />
     <Link Source="Flow" Target="Flow.CategoryId" Category="Contains" />
     <Link Source="Flow" Target="Flow.ChargerWholesale" Category="Contains" />
@@ -246,14 +246,14 @@
     <Link Source="Flow" Target="Flow.OptimiserWholesale" Category="Contains" />
     <Link Source="Flow" Target="Flow.Warehouse" Category="Contains" />
     <Link Source="Flow" Target="Flow.WarehouseId" Category="Contains" />
-    <Link Source="Flow" Target="FlowCategory" Category="Foreign Key" Annotations="" Bounds="1199.35830073436,705.560090831119,73.9639267529888,67.8556877050776" From="Flow.CategoryId" IsUnique="False" Label="1:*" LabelBounds="1237.69231332503,740.961692778611,14.0733333333333,15.96" Name="Flow -&gt; FlowCategory" To="FlowCategory.Id" />
-    <Link Source="Flow" Target="Warehouse" Category="Foreign Key" Annotations="" Bounds="1714.02815635082,705.560090831119,85.2459873886296,85.2444540405671" From="Flow.WarehouseId" IsUnique="False" Label="1:*" LabelBounds="1758.06535088837,730.808091570006,14.0733333333333,15.96" Name="Flow -&gt; Warehouse" To="Warehouse.Id" />
+    <Link Source="Flow" Target="FlowCategory" Category="Foreign Key" Annotations="" Bounds="1199.35830073436,705.559649388248,73.964407933702,67.8561291479488" From="Flow.CategoryId" IsUnique="False" Label="1:*" LabelBounds="1237.69255391539,740.961472057175,14.0733333333333,15.96" Name="Flow -&gt; FlowCategory" To="FlowCategory.Id" />
+    <Link Source="Flow" Target="Warehouse" Category="Foreign Key" Annotations="" Bounds="1714.02771490001,705.559649388248,85.2464288394406,85.2448954834379" From="Flow.WarehouseId" IsUnique="False" Label="1:*" LabelBounds="1758.06513016297,730.807870848571,14.0733333333333,15.96" Name="Flow -&gt; Warehouse" To="Warehouse.Id" />
     <Link Source="FlowAction" Target="FlowAction.Category" Category="Contains" />
     <Link Source="FlowAction" Target="FlowAction.FlowCategoryId" Category="Contains" />
     <Link Source="FlowAction" Target="FlowAction.Id" Category="Contains" />
     <Link Source="FlowAction" Target="FlowAction.JTEmailSnippets" Category="Contains" />
     <Link Source="FlowAction" Target="FlowAction.Type" Category="Contains" />
-    <Link Source="FlowAction" Target="FlowCategory" Category="Foreign Key" Annotations="" Bounds="1041.30256551853,593.640107920963,27.0773009770858,176.963432745081" From="FlowAction.FlowCategoryId" IsUnique="False" Label="1:*" LabelBounds="1058.84148379574,673.839323497116,14.0733333333333,15.96" Name="FlowAction -&gt; FlowCategory" To="FlowCategory.Id" />
+    <Link Source="FlowAction" Target="FlowCategory" Category="Foreign Key" Annotations="" Bounds="1041.30253167947,593.639886766177,27.077334816137,176.963653899867" From="FlowAction.FlowCategoryId" IsUnique="False" Label="1:*" LabelBounds="1058.84146687621,673.839212919723,14.0733333333333,15.96" Name="FlowAction -&gt; FlowCategory" To="FlowCategory.Id" />
     <Link Source="FlowCategory" Target="FlowCategory.Color" Category="Contains" />
     <Link Source="FlowCategory" Target="FlowCategory.Description" Category="Contains" />
     <Link Source="FlowCategory" Target="FlowCategory.FlowAction" Category="Contains" />
@@ -287,7 +287,7 @@
     <Link Source="IdentityRole" Target="IdentityRole.Id" Category="Contains" />
     <Link Source="IdentityRole" Target="IdentityRole.Name" Category="Contains" />
     <Link Source="IdentityRole" Target="IdentityRole.NormalizedName" Category="Contains" />
-    <Link Source="IdentityRoleClaim&lt;string&gt;" Target="IdentityRole" Category="Foreign Key" Annotations="" Bounds="193.16099593931,1832.84,93.2670796119561,144.355755653678" From="IdentityRoleClaim&lt;string&gt;.RoleId" IsUnique="False" Label="1:*" LabelBounds="241.474416541564,1887.97252050766,14.0733333333333,15.96" Name="IdentityRoleClaim&lt;string&gt; -&gt; IdentityRole" To="IdentityRole.Id" />
+    <Link Source="IdentityRoleClaim&lt;string&gt;" Target="IdentityRole" Category="Foreign Key" Annotations="" Bounds="193.16099593931,1832.84,93.2672427753902,144.356008192741" From="IdentityRoleClaim&lt;string&gt;.RoleId" IsUnique="False" Label="1:*" LabelBounds="241.474498123281,1887.97264677719,14.0733333333333,15.96" Name="IdentityRoleClaim&lt;string&gt; -&gt; IdentityRole" To="IdentityRole.Id" />
     <Link Source="IdentityRoleClaim&lt;string&gt;" Target="IdentityRoleClaim&lt;string&gt;.ClaimType" Category="Contains" />
     <Link Source="IdentityRoleClaim&lt;string&gt;" Target="IdentityRoleClaim&lt;string&gt;.ClaimValue" Category="Contains" />
     <Link Source="IdentityRoleClaim&lt;string&gt;" Target="IdentityRoleClaim&lt;string&gt;.Id" Category="Contains" />
@@ -307,38 +307,38 @@
     <Link Source="IdentityUser" Target="IdentityUser.SecurityStamp" Category="Contains" />
     <Link Source="IdentityUser" Target="IdentityUser.TwoFactorEnabled" Category="Contains" />
     <Link Source="IdentityUser" Target="IdentityUser.UserName" Category="Contains" />
-    <Link Source="IdentityUserClaim&lt;string&gt;" Target="IdentityUser" Category="Foreign Key" Annotations="" Bounds="639.889847748101,1854.85543388536,22.2499143719045,38.1837146033238" From="IdentityUserClaim&lt;string&gt;.UserId" IsUnique="False" Label="1:*" LabelBounds="652.742833676718,1856.98035689695,14.0733333333334,15.96" Name="IdentityUserClaim&lt;string&gt; -&gt; IdentityUser" To="IdentityUser.Id" />
+    <Link Source="IdentityUserClaim&lt;string&gt;" Target="IdentityUser" Category="Foreign Key" Annotations="" Bounds="639.889705542577,1854.85518984239,22.2503217545969,38.1844137244168" From="IdentityUserClaim&lt;string&gt;.UserId" IsUnique="False" Label="1:*" LabelBounds="652.742895162539,1856.98046241452,14.0733333333334,15.96" Name="IdentityUserClaim&lt;string&gt; -&gt; IdentityUser" To="IdentityUser.Id" />
     <Link Source="IdentityUserClaim&lt;string&gt;" Target="IdentityUserClaim&lt;string&gt;.ClaimType" Category="Contains" />
     <Link Source="IdentityUserClaim&lt;string&gt;" Target="IdentityUserClaim&lt;string&gt;.ClaimValue" Category="Contains" />
     <Link Source="IdentityUserClaim&lt;string&gt;" Target="IdentityUserClaim&lt;string&gt;.Id" Category="Contains" />
     <Link Source="IdentityUserClaim&lt;string&gt;" Target="IdentityUserClaim&lt;string&gt;.UserId" Category="Contains" />
-    <Link Source="IdentityUserLogin&lt;string&gt;" Target="IdentityUser" Category="Foreign Key" Annotations="" Bounds="827.58125125165,1854.85543388536,10.5834463881855,37.3015965053544" From="IdentityUserLogin&lt;string&gt;.UserId" IsUnique="False" Label="1:*" LabelBounds="836.875972096585,1866.7248567586,14.0733333333334,15.96" Name="IdentityUserLogin&lt;string&gt; -&gt; IdentityUser" To="IdentityUser.Id" />
+    <Link Source="IdentityUserLogin&lt;string&gt;" Target="IdentityUser" Category="Foreign Key" Annotations="" Bounds="827.581122133988,1854.85518984239,10.5836447472724,37.3022956264474" From="IdentityUserLogin&lt;string&gt;.UserId" IsUnique="False" Label="1:*" LabelBounds="836.875942158466,1866.72496227618,14.0733333333334,15.96" Name="IdentityUserLogin&lt;string&gt; -&gt; IdentityUser" To="IdentityUser.Id" />
     <Link Source="IdentityUserLogin&lt;string&gt;" Target="IdentityUserLogin&lt;string&gt;.LoginProvider" Category="Contains" />
     <Link Source="IdentityUserLogin&lt;string&gt;" Target="IdentityUserLogin&lt;string&gt;.ProviderDisplayName" Category="Contains" />
     <Link Source="IdentityUserLogin&lt;string&gt;" Target="IdentityUserLogin&lt;string&gt;.ProviderKey" Category="Contains" />
     <Link Source="IdentityUserLogin&lt;string&gt;" Target="IdentityUserLogin&lt;string&gt;.UserId" Category="Contains" />
-    <Link Source="IdentityUserRole&lt;string&gt;" Target="IdentityRole" Category="Foreign Key" Annotations="" Bounds="355.23666671796,1826.87522626817,5.3365938015304E-06,148.87999296875" From="IdentityUserRole&lt;string&gt;.RoleId" IsUnique="False" Label="1:*" LabelBounds="359.236669386257,1893.33522268086,14.0733333333333,15.96" Name="IdentityUserRole&lt;string&gt; -&gt; IdentityRole" To="IdentityRole.Id" />
-    <Link Source="IdentityUserRole&lt;string&gt;" Target="IdentityUser" Category="Foreign Key" Annotations="" Bounds="430.13623046875,1826.87524414063,91.575439453125,68.546875" From="IdentityUserRole&lt;string&gt;.UserId" IsUnique="False" Label="1:*" LabelBounds="460.652119342732,1862.74977578956,14.0733333333333,15.96" Name="IdentityUserRole&lt;string&gt; -&gt; IdentityUser" To="IdentityUser.Id" />
+    <Link Source="IdentityUserRole&lt;string&gt;" Target="IdentityRole" Category="Foreign Key" Annotations="" Bounds="355.236666717955,1826.87507626817,5.33660789869828E-06,148.880395507812" From="IdentityUserRole&lt;string&gt;.RoleId" IsUnique="False" Label="1:*" LabelBounds="359.236669386259,1893.33527395039,14.0733333333333,15.96" Name="IdentityUserRole&lt;string&gt; -&gt; IdentityRole" To="IdentityRole.Id" />
+    <Link Source="IdentityUserRole&lt;string&gt;" Target="IdentityUser" Category="Foreign Key" Annotations="" Bounds="430.136169433594,1826.87512207031,91.5762329101563,68.54736328125" From="IdentityUserRole&lt;string&gt;.UserId" IsUnique="False" Label="1:*" LabelBounds="460.652456590417,1862.7499272839,14.0733333333333,15.96" Name="IdentityUserRole&lt;string&gt; -&gt; IdentityUser" To="IdentityUser.Id" />
     <Link Source="IdentityUserRole&lt;string&gt;" Target="IdentityUserRole&lt;string&gt;.RoleId" Category="Contains" />
     <Link Source="IdentityUserRole&lt;string&gt;" Target="IdentityUserRole&lt;string&gt;.UserId" Category="Contains" />
-    <Link Source="IdentityUserToken&lt;string&gt;" Target="IdentityUser" Category="Foreign Key" Annotations="" Bounds="985.427964504832,1832.84,69.64834235135,61.9915858853904" From="IdentityUserToken&lt;string&gt;.UserId" IsUnique="False" Label="1:*" LabelBounds="1021.58184500168,1865.32973843072,14.0733333333334,15.96" Name="IdentityUserToken&lt;string&gt; -&gt; IdentityUser" To="IdentityUser.Id" />
+    <Link Source="IdentityUserToken&lt;string&gt;" Target="IdentityUser" Category="Foreign Key" Annotations="" Bounds="985.427453218716,1832.84,69.6488536374626,61.9920409635142" From="IdentityUserToken&lt;string&gt;.UserId" IsUnique="False" Label="1:*" LabelBounds="1021.58158935862,1865.32996596978,14.0733333333334,15.96" Name="IdentityUserToken&lt;string&gt; -&gt; IdentityUser" To="IdentityUser.Id" />
     <Link Source="IdentityUserToken&lt;string&gt;" Target="IdentityUserToken&lt;string&gt;.LoginProvider" Category="Contains" />
     <Link Source="IdentityUserToken&lt;string&gt;" Target="IdentityUserToken&lt;string&gt;.Name" Category="Contains" />
     <Link Source="IdentityUserToken&lt;string&gt;" Target="IdentityUserToken&lt;string&gt;.UserId" Category="Contains" />
     <Link Source="IdentityUserToken&lt;string&gt;" Target="IdentityUserToken&lt;string&gt;.Value" Category="Contains" />
-    <Link Source="JTFlowActionEmailSnippet" Target="EmailSnippet" Category="Foreign Key" Annotations="" Bounds="791.644743212002,237.88,140.704780413014,150.451305553069" From="JTFlowActionEmailSnippet.EmailSnippetId" IsUnique="False" Label="1:*" LabelBounds="863.457869928635,314.471759964125,14.0733333333333,15.96" Name="JTFlowActionEmailSnippet -&gt; EmailSnippet" To="EmailSnippet.Id" />
-    <Link Source="JTFlowActionEmailSnippet" Target="FlowAction" Category="Foreign Key" Annotations="" Bounds="1025.23699501193,237.88,0.537187375328813,148.879724196706" From="JTFlowActionEmailSnippet.FlowActionId" IsUnique="False" Label="1:*" LabelBounds="1029.50558869967,304.332645751313,14.0733333333333,15.96" Name="JTFlowActionEmailSnippet -&gt; FlowAction" To="FlowAction.Id" />
+    <Link Source="JTFlowActionEmailSnippet" Target="EmailSnippet" Category="Foreign Key" Annotations="" Bounds="791.644393681096,237.88,140.70512994392,150.451679295745" From="JTFlowActionEmailSnippet.EmailSnippetId" IsUnique="False" Label="1:*" LabelBounds="863.457695163181,314.471946835463,14.0733333333333,15.96" Name="JTFlowActionEmailSnippet -&gt; EmailSnippet" To="EmailSnippet.Id" />
+    <Link Source="JTFlowActionEmailSnippet" Target="FlowAction" Category="Foreign Key" Annotations="" Bounds="1025.23699501192,237.88,0.537188173298546,148.87994535149" From="JTFlowActionEmailSnippet.FlowActionId" IsUnique="False" Label="1:*" LabelBounds="1029.50558909866,304.332756328705,14.0733333333333,15.96" Name="JTFlowActionEmailSnippet -&gt; FlowAction" To="FlowAction.Id" />
     <Link Source="JTFlowActionEmailSnippet" Target="JTFlowActionEmailSnippet.EmailSnippet" Category="Contains" />
     <Link Source="JTFlowActionEmailSnippet" Target="JTFlowActionEmailSnippet.EmailSnippetId" Category="Contains" />
     <Link Source="JTFlowActionEmailSnippet" Target="JTFlowActionEmailSnippet.FlowAction" Category="Contains" />
     <Link Source="JTFlowActionEmailSnippet" Target="JTFlowActionEmailSnippet.FlowActionId" Category="Contains" />
-    <Link Source="JTFlowProduct" Target="Flow" Category="Foreign Key" Annotations="" Bounds="1502.23707041292,237.88,0.133384481201119,36.9592665554401" From="JTFlowProduct.FlowId" IsUnique="False" Label="1:*" LabelBounds="1506.3037626536,248.372415406534,14.0733333333333,15.96" Name="JTFlowProduct -&gt; Flow" To="Flow.Id" />
+    <Link Source="JTFlowProduct" Target="Flow" Category="Foreign Key" Annotations="" Bounds="1502.23707041291,237.88,0.133386074350938,36.9597079983111" From="JTFlowProduct.FlowId" IsUnique="False" Label="1:*" LabelBounds="1506.30376345017,248.372636127969,14.0733333333333,15.96" Name="JTFlowProduct -&gt; Flow" To="Flow.Id" />
     <Link Source="JTFlowProduct" Target="JTFlowProduct.Flow" Category="Contains" />
     <Link Source="JTFlowProduct" Target="JTFlowProduct.FlowId" Category="Contains" />
     <Link Source="JTFlowProduct" Target="JTFlowProduct.Product" Category="Contains" />
     <Link Source="JTFlowProduct" Target="JTFlowProduct.ProductId" Category="Contains" />
     <Link Source="JTFlowProduct" Target="JTFlowProduct.Quanity" Category="Contains" />
-    <Link Source="JTFlowProduct" Target="Product" Category="Foreign Key" Annotations="" Bounds="1619.29166666667,190.426682206268,466.919809766596,204.750963373292" From="JTFlowProduct.ProductId" IsUnique="False" Label="1:*" LabelBounds="1740.47262668884,225.422408089679,14.0733333333333,15.96" Name="JTFlowProduct -&gt; Product" To="Product.Id" />
+    <Link Source="JTFlowProduct" Target="Product" Category="Foreign Key" Annotations="" Bounds="1619.29166666666,190.426682206268,466.920246778319,204.751155009134" From="JTFlowProduct.ProductId" IsUnique="False" Label="1:*" LabelBounds="1740.47273935592,225.422457495794,14.0733333333333,15.96" Name="JTFlowProduct -&gt; Product" To="Product.Id" />
     <Link Source="Product" Target="Product.Category" Category="Contains" />
     <Link Source="Product" Target="Product.CategoryId" Category="Contains" />
     <Link Source="Product" Target="Product.Company" Category="Contains" />
@@ -351,13 +351,13 @@
     <Link Source="Product" Target="Product.Warehouse" Category="Contains" />
     <Link Source="Product" Target="Product.WarehouseId" Category="Contains" />
     <Link Source="Product" Target="Product.Warranty" Category="Contains" />
-    <Link Source="Product" Target="ProductCategory" Category="Foreign Key" Annotations="" Bounds="2247.862771181,649.600072748794,28.916034509406,123.101556189623" From="Product.CategoryId" IsUnique="False" Label="1:*" LabelBounds="2266.32223077543,703.628194574384,14.0733333333333,15.96" Name="Product -&gt; ProductCategory" To="ProductCategory.Id" />
-    <Link Source="Product" Target="Warehouse" Category="Foreign Key" Annotations="" Bounds="2011.70866515365,649.600072748794,143.786201671325,141.261039120461" From="Product.WarehouseId" IsUnique="False" Label="1:*" LabelBounds="2085.00339638864,721.657278057067,14.0733333333333,15.96" Name="Product -&gt; Warehouse" To="Warehouse.Id" />
+    <Link Source="Product" Target="ProductCategory" Category="Foreign Key" Annotations="" Bounds="2247.86272131012,649.599660821963,28.9161811401623,123.10218042716" From="Product.CategoryId" IsUnique="False" Label="1:*" LabelBounds="2266.32225421992,703.628094766321,14.0733333333333,15.96" Name="Product -&gt; ProductCategory" To="ProductCategory.Id" />
+    <Link Source="Product" Target="Warehouse" Category="Foreign Key" Annotations="" Bounds="2011.70866515365,649.599660821963,143.786620961703,141.261451047292" From="Product.WarehouseId" IsUnique="False" Label="1:*" LabelBounds="2085.00360603383,721.657072093652,14.0733333333333,15.96" Name="Product -&gt; Warehouse" To="Warehouse.Id" />
     <Link Source="ProductCategory" Target="ProductCategory.Description" Category="Contains" />
     <Link Source="ProductCategory" Target="ProductCategory.Id" Category="Contains" />
     <Link Source="ProductCategory" Target="ProductCategory.Name" Category="Contains" />
     <Link Source="ProductCategory" Target="ProductCategory.Products" Category="Contains" />
-    <Link Source="Warehouse" Target="Company" Category="Foreign Key" Annotations="" Bounds="2054.15494170459,987.510737020567,152.843575132119,93.3996491882419" From="Warehouse.CompanyId" IsUnique="False" Label="1:*" LabelBounds="2131.61959061024,1016.54397431062,14.0733333333333,15.96" Name="Warehouse -&gt; Company" To="Company.Id" />
+    <Link Source="Warehouse" Target="Company" Category="Foreign Key" Annotations="" Bounds="2054.15494170459,987.510737020569,152.843575132119,93.3996491882435" From="Warehouse.CompanyId" IsUnique="False" Label="1:*" LabelBounds="2131.61959061023,1016.54397431062,14.0733333333333,15.96" Name="Warehouse -&gt; Company" To="Company.Id" />
     <Link Source="Warehouse" Target="Warehouse.Address" Category="Contains" />
     <Link Source="Warehouse" Target="Warehouse.Company" Category="Contains" />
     <Link Source="Warehouse" Target="Warehouse.CompanyId" Category="Contains" />
@@ -365,7 +365,7 @@
     <Link Source="Warehouse" Target="Warehouse.Id" Category="Contains" />
     <Link Source="Warehouse" Target="Warehouse.Name" Category="Contains" />
     <Link Source="Warehouse" Target="Warehouse.Products" Category="Contains" />
-    <Link Source="Warehouse.Address#Address" Target="Warehouse" Category="Foreign Key" Annotations="" Bounds="1914.95137802809,593.640132319772,18.7024138410247,194.569607881262" From="Warehouse.Address#Address.WarehouseId" IsUnique="True" Label="1:1" LabelBounds="1928.30262724118,683.136298193397,15.54,15.96" Name="Warehouse.Address#Address -&gt; Warehouse" To="Warehouse.Id" />
+    <Link Source="Warehouse.Address#Address" Target="Warehouse" Category="Foreign Key" Annotations="" Bounds="1914.95137802809,593.639917927683,18.7024344488138,194.569822273351" From="Warehouse.Address#Address.WarehouseId" IsUnique="True" Label="1:1" LabelBounds="1928.30263754507,683.136190997353,15.54,15.96" Name="Warehouse.Address#Address -&gt; Warehouse" To="Warehouse.Id" />
     <Link Source="Warehouse.Address#Address" Target="Warehouse.Address#Address.City" Category="Contains" />
     <Link Source="Warehouse.Address#Address" Target="Warehouse.Address#Address.PostCode" Category="Contains" />
     <Link Source="Warehouse.Address#Address" Target="Warehouse.Address#Address.Street" Category="Contains" />
