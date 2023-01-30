@@ -21,23 +21,12 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Clients\Commands\Delete\" />
-		<Folder Include="Clients\Commands\Update\" />
-		<Folder Include="Clients\Queries\Get\" />
-		<Folder Include="Clients\Queries\Create\" />
-		<Folder Include="Clients\Queries\GetAll\" />
 		<Folder Include="Companies\Commands\Add\" />
 		<Folder Include="Companies\Commands\Delete\" />
 		<Folder Include="Companies\Commands\Update\" />
 		<Folder Include="Companies\Queries\Create\" />
 		<Folder Include="Companies\Queries\GetAll\" />
 		<Folder Include="Companies\Queries\Get\" />
-		<Folder Include="EmailSnippets\Commands\Add\" />
-		<Folder Include="EmailSnippets\Commands\Delete\" />
-		<Folder Include="EmailSnippets\Commands\Update\" />
-		<Folder Include="EmailSnippets\Queries\Create\" />
-		<Folder Include="EmailSnippets\Queries\GetAll\" />
-		<Folder Include="EmailSnippets\Queries\Get\" />
 		<Folder Include="Flows\Commands\Add\" />
 		<Folder Include="Flows\Commands\Delete\" />
 		<Folder Include="Flows\Commands\Update\" />

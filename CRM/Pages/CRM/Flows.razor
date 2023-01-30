@@ -124,12 +124,12 @@
     }
 </div>
 
-<RadzenButton Icon="add" Variant="Variant.Flat" Text="Add" Size="ButtonSize.ExtraSmall" Click="async args => await DialogAddFlow()"></RadzenButton>
 <div class="flow_table">
     <table>
         <thead>
             <tr>
-                <th></th>
+               
+                <th><RadzenButton Text="Dodaj" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="async args => await DialogAddFlow()"></RadzenButton></th>
                 <th>Numer Oferty</th>
                 <th>Nazwa Instalacji</th>
                 <th>Opis</th>
@@ -159,7 +159,7 @@
                 @if (flow.CategoryId == category.Id)
                 {
                     <tr>
-                        <td><RadzenButton Text="Opcje" Click="async arg => await ShowOptions(flow)"></RadzenButton></td>
+                        <td><RadzenButton Text="Opcje" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="async arg => await ShowOptions(flow)"></RadzenButton></td>
                         <td>@flow.OfferNr</td>
                         <td>@flow.InstallationName</td>
                         <td>@flow.Description</td>
