@@ -1,0 +1,131 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+
+<EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
+    @*EditForm to komponent formularza wymaga parametru EditContext który jest jako prywatna i zainicializowana w OnParametersSet albo OnParametersSetAsync*@
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <ul style="list-style: none;">
+        <li>
+            <h5>Numer Oferty</h5>
+            <RadzenNumeric TValue="int" @bind-Value="Value.OfferNr"></RadzenNumeric>
+        </li>
+        <li>
+            <h5>Nazwa instalacji</h5>
+            <RadzenTextBox @bind-Value="Value.InstallationName"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Opis</h5>
+            <RadzenTextBox @bind-Value="Value.Description"></RadzenTextBox>
+        </li>
+        <li>
+            <h5 >FirePrevention</h5>
+            <RadzenTextBox @bind-Value="Value.FirePrevention"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Rodzaj konstrukcji</h5>
+            <RadzenTextBox @bind-Value="Value.ConstructionType"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Ładowanie samochodów elektrycznych</h5>
+            <RadzenTextBox @bind-Value="Value.EVCharger"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Ilość ładowarek</h5>
+            <RadzenTextBox @bind-Value="Value.EVChargerCounter"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>Data instalacji?</h5>
+            <RadzenDatePicker @bind-Value=@Value.InstallationDate DateFormat="d"/>
+            @*<RadzenDatePicker @bind-Value=@value DateFormat="d" Change=@(args => OnChange(args, "DatePicker", "MM/dd/yyyy")) Class="w-100" />*@
+        </li>
+        <li>
+            <h5>ModulesWholesale</h5>
+            <RadzenTextBox @bind-Value="Value.ModulesWholesale"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>OptimiserWholesale</h5>
+            <RadzenTextBox @bind-Value="Value.OptimiserWholesale"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>ChargerWholesale</h5>
+            <RadzenTextBox @bind-Value="Value.ChargerWholesale"></RadzenTextBox>
+        </li>
+        <li>
+            <h5>EnergyStorageWholesale</h5>
+            <RadzenTextBox @bind-Value="Value.EnergyStorageWholesale"></RadzenTextBox>
+        </li>
+        <li>
+            <RadzenCheckBox @bind-Value=@Value.IsActive Name="IsActive" TValue="bool" />
+            <RadzenLabel Text="Aktywny" Component="IsActive" Style="margin-left: 8px; vertical-align: middle;" />
+
+        </li>
+
+        <li>
+            <RadzenDropDown AllowFiltering=true @bind-Value="Value.WarehouseId" TextProperty="Name" ValueProperty="Id" Data="Warehouses"></RadzenDropDown>
+        </li>
+        <li>
+            <RadzenDropDown AllowFiltering=true @bind-Value="Value.ClientId" ValueProperty="Id" Data="Clients">
+                <Template Context="client">
+                    <p>
+                        @(client.Name) @(client.Surname)
+                    </p>
+                </Template>
+            </RadzenDropDown>
+        </li>
+        <li>
+            <RadzenDropDown AllowFiltering=true @bind-Value="Value.CategoryId" TextProperty="Name" ValueProperty="Id" Data="Categories"></RadzenDropDown>
+        </li>
+    </ul>
+
+
+    <RadzenButton ButtonType="ButtonType.Submit">Zapisz</RadzenButton>
+</EditForm>
+
+@code {
+    /// <summary>
+    /// Value for form
+    /// </summary>
+    [Parameter]
+    public Flow? Value { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the value changed.
+    /// </summary>
+    /// <value>The value changed.</value>
+    [Parameter]
+    public EventCallback<Flow> Submitted { get; set; }
+
+    private EditContext? editContext;
+
+    private List<Warehouse> Warehouses = new();
+    private List<Client> Clients = new();
+    private List<FlowCategory> Categories = new();
+
+    protected override void OnParametersSet()
+    {
+
+        using (var db = _context.CreateDbContext())
+        {
+            Warehouses = db.Warehouses.ToList();
+            Clients = db.Clients.ToList();
+            Categories = db.FlowCategory.ToList();
+
+        }
+        if (Value == null)
+        {
+            Value = new();
+        }
+
+        editContext = new(Value);
+        base.OnParametersSet();
+    }
+
+    private async Task OnSubmit()
+    {
+        await Submitted.InvokeAsync(Value);
+    }
+
+}

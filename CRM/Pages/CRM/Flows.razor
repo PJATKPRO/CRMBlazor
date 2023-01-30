@@ -1,0 +1,344 @@
+﻿@page "/CRM/Flows"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using CRMBlazor.Helpers;
+@using CRMBlazor.Infrastructure.Services.Mail;
+@using CRMBlazor.Pages.CRM.Shared;
+@using Microsoft.EntityFrameworkCore;
+@using System.Text.RegularExpressions;
+@using Newtonsoft.Json;
+@inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
+
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+@inject IJSRuntime JSRuntime
+
+
+<AuthorizeView>
+    <Authorized>
+
+
+<style>
+    a {
+        text-decoration: none;
+    }
+
+    .flow_timeline {
+        display: flex;
+        flex-direction: row;
+        height: 50px;
+        overflow-y: hidden;
+        margin-left: -2rem;
+        margin-right: -1.5rem;
+        margin-top: -1.1rem;
+        /*overflow-x: scroll;*/
+        /* Track */
+        /* Handle */
+        /* Handle on hover */
+    }
+
+        /*.flow_timeline::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .flow_timeline::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .flow_timeline::-webkit-scrollbar-thumb {
+            border-radius: 2.5px;
+            background: #888;
+        }
+
+            .flow_timeline::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }*/
+
+        .flow_timeline .flow_timeline_element {
+            position: relative;
+            min-width: @(width)px;
+            padding: 5px 5px 5px @(margin_left)px;
+        }
+
+            .flow_timeline .flow_timeline_element h2 {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 18px;
+                font-weight: 800;
+            }
+
+            .flow_timeline .flow_timeline_element h3 {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12px;
+            }
+
+            .flow_timeline .flow_timeline_element::before {
+                content: "";
+                position: absolute;
+                display: inline;
+                border-top: 25px solid transparent;
+                border-bottom: 25px solid transparent;
+                border-left: 20px solid;
+                border-left-color: inherit;
+                margin-top: -5px;
+                margin-left: @(width - margin_left)px;
+                z-index: 1; 
+            }
+
+            .flow_timeline .flow_timeline_element:last-child::before {
+                display: none;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th, td {
+                border: 1px solid #eaeaea;
+                padding: 0.5rem;
+                text-align: left;
+            }
+
+            th {
+                padding: 0.75rem;
+                text-align: left;
+                vertical-align: middle;
+                font-weight: 600;
+                border: 1px solid #eaeaea;    
+            }
+
+            span {
+                padding: 4px 8px;
+                border-radius: 3px;
+            }
+
+</style>
+
+
+<div class="flow_timeline">
+    @foreach (var category in FlowCaterories)
+    {
+        <div class="flow_timeline_element" style="border-color: @category.Color; background-color: @category.Color;">
+        <a href="#@category.Id" style="color: @textColor(category.Color);">
+            <h2>@category.Flows.Count</h2>
+            <h3>@category.Name</h3>
+        </a>
+    </div>
+    }
+</div>
+
+<div class="flow_table">
+    <table>
+        <thead>
+            <tr>
+               
+                <th><RadzenButton Icon="add" Text="Dodaj" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="async args => await DialogAddFlow()"></RadzenButton></th>
+                <th>Numer Oferty</th>
+                <th>Nazwa Instalacji</th>
+                <th>Opis</th>
+                <th>Fire Prevention</th>
+                <th>Rodzaj konstrukcji</th>
+                <th>Ładowanie samochodów elektrycznych</th>
+                <th>Ilość ładowarek</th>
+                <th>Data instalacji</th>
+                <th>Modules Wholesale</th>
+                <th>Optimiser Wholesale</th>
+                <th>Charger Wholesale</th>
+                <th>Energy Storage Wholesale</th>
+                <th>IsActive</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var category in FlowCaterories)
+        {
+            <tr class="titleRow" id="@category.Id" style="border-top: 3px solid @category.Color;">
+                <td colspan="12"><span style="background-color: @category.Color; color: @textColor(category.Color)"> @category.Name</span></td>
+                <td style="width:50px; text-align:center;">
+                </td>
+            </tr>
+
+            @foreach (var flow in FlowList)
+            {
+                @if (flow.CategoryId == category.Id)
+                {
+                    <tr>
+                                    <td><RadzenButton Icon="settings" Text="Opcje" ButtonStyle="ButtonStyle.Primary" Variant="Variant.Flat" Size="ButtonSize.Small" Click="async arg => await ShowOptions(flow)"></RadzenButton></td>
+                        <td>@flow.OfferNr</td>
+                        <td>@flow.InstallationName</td>
+                        <td>@flow.Description</td>
+                        <td>@flow.FirePrevention</td>
+                        <td>@flow.ConstructionType</td>
+                        <td>@flow.EVCharger</td>
+                        <td>@flow.EVChargerCounter</td>
+                        <td>@flow.InstallationDate</td>
+                        <td>@flow.ModulesWholesale</td>
+                        <td>@flow.OptimiserWholesale</td>
+                        <td>@flow.ChargerWholesale</td>
+                        <td>@flow.EnergyStorageWholesale</td>
+                        <td>@flow.IsActive</td>
+
+                    </tr>
+                }
+            }
+        }
+        </tbody>
+    </table>
+</div>
+    </Authorized>
+    <NotAuthorized>
+        <h2>Najpierw należy się zalogować</h2>
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    private HashSet<FlowCategory> FlowCaterories;
+    private HashSet<Flow> FlowList;
+    private Flow? selectedFlow;
+
+
+    private int width = 170;
+    private int margin_left = 40;
+
+    private int[] Colors = {0, 0, 0}; 
+
+    protected override async Task OnParametersSetAsync()
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            FlowCaterories = db.FlowCategory.AsNoTracking().Include(x => x.Flows).ToHashSet();
+        }
+
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            FlowList = db.Flows.AsNoTracking().ToHashSet();
+        }
+    }
+
+    private async Task AddFlow(Flow flow)
+    {
+        using (var db =  _contextFactory.CreateDbContext())
+        {
+            db.Flows.Add(flow);
+            db.SaveChanges();
+            await OnParametersSetAsync();
+        }
+    }
+    public async Task ShowOptions(Flow flow)
+    {
+        var result = await DialogService.OpenAsync("Simple Dialog", ds =>
+       @<div>
+        <div class="row">
+            <div class="col">
+                <RadzenButton Text="Edit Flow" Click="async arg => {await DialogEditFlow(flow);ds.Close(false);}" Class="me-1" />
+                <RadzenButton Text="Gen PDF" Click="async arg => {await SendMail(flow); ds.Close(false);}" Class="me-1"  />
+                <RadzenButton Text="Zamknij" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" Class="me-1" />
+
+            </div>
+        </div>
+        </div>
+    );
+
+
+
+
+
+    }
+    private async Task DialogAddFlow(){
+        selectedFlow = new();
+        dynamic result = await DialogService.OpenAsync<FlowFormDialog>($"Create Flow",
+              new Dictionary<string, object>() { { "Value", selectedFlow } },
+      new DialogOptions() { Width = "900px", Height = "700px", Resizable = true, Draggable = true });
+
+        if (result != null)
+        {
+            await AddFlow(result);
+        }
+    }
+
+    private async Task SendMail(Flow flow)
+    {
+        HttpClient http = new HttpClient();
+        PDFGenerator request = new PDFGenerator() { html = $"<html><body>{JsonConvert.SerializeObject(flow)}</body></html>", filename = "test.pdf", outDir = "/PDF/" };
+        string baseAdress = System.Environment.GetEnvironmentVariable("PDFGeneratorBaseAdress") ?? "http://localhost:7501/";
+        http.BaseAddress = new Uri(baseAdress);
+
+        var payload = JsonConvert.SerializeObject(request);
+
+        var content = new StringContent(payload, System.Text.Encoding.UTF8, "application/json");
+
+
+        try
+        {
+
+            var response = await http.PostAsync("stringtopdf", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                await DownloadFileFromStream(request.filename, @"D:/PDF/");
+                NotificationService.Notify((new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Sukcess", Detail = "Pomyslnie wygenerowano PDF.", Duration = 4000 }));
+            }
+            else
+            {
+                NotificationService.Notify((new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Wystąpił błąd przy generowaniu PDF.", Duration = 10000 }));
+                Console.WriteLine(response.Content);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task DownloadFileFromStream(string fileName, string dir)
+    {
+        var fileStream = GetFileStream(Path.Combine(dir, fileName));
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JSRuntime.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    private Stream GetFileStream(string path)
+    {
+
+        return new FileStream(path, FileMode.Open);
+    }
+
+    private async Task DialogEditFlow(Flow flow)
+    {
+        dynamic result = await DialogService.OpenAsync<FlowFormDialog>($"Create Flow",
+              new Dictionary<string, object>() { { "Value", flow } },
+      new DialogOptions() { Width = "900px", Height = "700px", Resizable = true, Draggable = true });
+
+        if (result != null)
+        {
+            await Update(result);
+        }
+    }
+
+    private string textColor(string str)
+    {
+        var match = Regex.Match(str, @"rgb\((\d+), (\d+), (\d+)\)");
+        if (match.Success)
+        {
+            int x = int.Parse(match.Groups[1].Value);
+            int y = int.Parse(match.Groups[2].Value);
+            int z = int.Parse(match.Groups[3].Value);
+            if (x + y + z < 300)
+            {
+                return "white";
+            }
+        }
+        return "black";
+    }
+
+    private async Task Update(Flow flow)
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            db.Flows.Update(flow);
+            await db.SaveChangesAsync();
+            await OnParametersSetAsync();
+        }
+    }
+
+}

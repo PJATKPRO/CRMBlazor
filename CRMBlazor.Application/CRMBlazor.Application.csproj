@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Clients\Commands\Add - Copy\**" />
+	  <EmbeddedResource Remove="Clients\Commands\Add - Copy\**" />
+	  <None Remove="Clients\Commands\Add - Copy\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="ErrorOr" Version="1.2.1" />
+		<PackageReference Include="FluentValidation" Version="11.4.0" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+		<PackageReference Include="MediatR" Version="11.1.0" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Companies\Commands\Add\" />
+		<Folder Include="Companies\Commands\Delete\" />
+		<Folder Include="Companies\Commands\Update\" />
+		<Folder Include="Companies\Queries\Create\" />
+		<Folder Include="Companies\Queries\GetAll\" />
+		<Folder Include="Companies\Queries\Get\" />
+		<Folder Include="Flows\Commands\Add\" />
+		<Folder Include="Flows\Commands\Delete\" />
+		<Folder Include="Flows\Commands\Update\" />
+		<Folder Include="Flows\Queries\Create\" />
+		<Folder Include="Flows\Queries\GetAll\" />
+		<Folder Include="Flows\Queries\Get\" />
+		<Folder Include="JTFlowActionEmailSnippets\Commands\Add\" />
+		<Folder Include="JTFlowActionEmailSnippets\Commands\Delete\" />
+		<Folder Include="JTFlowActionEmailSnippets\Commands\Update\" />
+		<Folder Include="JTFlowActionEmailSnippets\Queries\Create\" />
+		<Folder Include="JTFlowActionEmailSnippets\Queries\GetAll\" />
+		<Folder Include="JTFlowActionEmailSnippets\Queries\Get\" />
+		<Folder Include="JTFlowProducts\Commands\Add\" />
+		<Folder Include="JTFlowProducts\Commands\Delete\" />
+		<Folder Include="JTFlowProducts\Commands\Update\" />
+		<Folder Include="JTFlowProducts\Queries\Create\" />
+		<Folder Include="JTFlowProducts\Queries\GetAll\" />
+		<Folder Include="JTFlowProducts\Queries\Get\" />
+		<Folder Include="JTWarehouseProducts\Commands\Add\" />
+		<Folder Include="JTWarehouseProducts\Commands\Delete\" />
+		<Folder Include="JTWarehouseProducts\Commands\Update\" />
+		<Folder Include="JTWarehouseProducts\Queries\Create\" />
+		<Folder Include="JTWarehouseProducts\Queries\GetAll\" />
+		<Folder Include="JTWarehouseProducts\Queries\Get\" />
+		<Folder Include="Products\Commands\Add\" />
+		<Folder Include="Products\Commands\Delete\" />
+		<Folder Include="Products\Commands\Update\" />
+		<Folder Include="Products\Queries\Create\" />
+		<Folder Include="Products\Queries\GetAll\" />
+		<Folder Include="Products\Queries\Get\" />
+		<Folder Include="Warehouses\Commands\Add\" />
+		<Folder Include="Warehouses\Commands\Delete\" />
+		<Folder Include="Warehouses\Commands\Update\" />
+		<Folder Include="Warehouses\Queries\Create\" />
+		<Folder Include="Warehouses\Queries\GetAll\" />
+		<Folder Include="Warehouses\Queries\Get\" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\CRMBlazor.Domain\CRMBlazor.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

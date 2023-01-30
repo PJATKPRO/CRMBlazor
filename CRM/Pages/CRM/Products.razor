@@ -1,0 +1,83 @@
+﻿@page "/CRM/Products"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using CRMBlazor.Helpers;
+@using CRMBlazor.Pages.CRM.Shared;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
+
+
+    <AuthorizeView>
+        <Authorized>
+<h3>Produkty</h3>
+
+@if (ProductList == null)
+{
+    <h3>loading...</h3>
+}
+else
+{
+    <table class="itemList">
+        <thead>
+            <tr>
+                <th>Nazwa produktu </th>
+                <th>Cena zakupu </th>
+                <th>Cena sprzedaży </th>
+                <th> Gwarancja </th>
+                <th style="width:50px; text-align:center;">
+                    <RadzenButton Icon="add" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => selectedProduct = new()"></RadzenButton>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in ProductList)
+            {
+                <tr>
+                    <td> @product.ProductName </td>
+                    <td> @product.PurchasePrice </td>
+                    <td> @product.SellingPrice </td>
+                    <td> @product.Warranty </td>
+                    <td style="width:50px; text-align:center;">
+                        <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => selectedProduct = product"></RadzenButton>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (selectedProduct is not null)
+    {
+
+        <RadzenButton Icon="close" Click="() => selectedProduct = null" style="z-index: 4; position: absolute; top: 20px; right: 20px;" />
+        <ProductForm Value="selectedProduct" Submitted="(_value) => {Update(_value); selectedProduct = null;}"></ProductForm>
+    }
+}
+
+<RadzenButton Text="dodaj produkt" Click="() => selectedProduct = new()" />
+        </Authorized>
+    <NotAuthorized>
+        <h2>Najpierw należy się zalogować</h2>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private HashSet<Product> ProductList;
+    private Product? selectedProduct;
+
+    //private Type mode;
+    protected override async Task OnParametersSetAsync()
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            ProductList = db.Products.ToHashSet();
+        }
+    }
+
+    private async Task Update(Product product)
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            db.Products.Update(product);
+            await db.SaveChangesAsync();
+        }
+    }
+}

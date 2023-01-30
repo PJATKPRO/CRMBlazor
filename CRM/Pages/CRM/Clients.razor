@@ -1,0 +1,84 @@
+﻿@page "/CRM/Clients"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using CRMBlazor.Helpers;
+@using CRMBlazor.Pages.CRM.Shared;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
+
+@inject DialogService DialogService
+
+
+<AuthorizeView>
+    <Authorized>
+<link rel="stylesheet" href="Shared/tableStyles.css">
+
+<h3>Klienci</h3>
+
+@if (ClientList == null)
+{
+    <h3>loading...</h3>
+}
+else
+{
+    <table class="itemList">
+        <thead>
+            <tr>
+                <th>Imię </th>
+                <th>Nazwisko </th>
+                <th>Pesel lub NIP </th>
+                <th style="width:50px; text-align:center;">
+                    <RadzenButton Icon="add" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => selectedClient = new()"></RadzenButton>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in ClientList)
+                {
+                    <tr>
+                        <td> @client.Name </td>
+                        <td> @client.Surname </td>
+                        <td> @client.PeselOrNip </td>
+                    <td style="width:50px; text-align:center;">
+                        <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => selectedClient = client"></RadzenButton>
+                    </td>
+                     </tr>
+                }
+        </tbody>
+    </table>
+
+    @if (selectedClient is not null)
+    {
+        
+        <RadzenButton Icon="close"  Click="() => selectedClient = null" style="z-index: 4; position: absolute; top: 20px; right: 20px;"/>
+        <ClientForm Value="selectedClient" Submitted="(_value) => {Update(_value); selectedClient = null;}"></ClientForm>
+    }
+}
+
+<RadzenButton Text="dodaj klienta" Click="() => selectedClient = new()" />
+        </Authorized>
+    <NotAuthorized>
+        <h2>Najpierw należy się zalogować</h2>
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    private HashSet<Client> ClientList;
+    private Client? selectedClient;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            ClientList = db.Clients.AsNoTracking().ToHashSet();
+        }
+    }
+
+
+    private async Task Update(Client client)
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            db.Clients.Update(client);
+            await db.SaveChangesAsync();
+        }
+    }
+}

@@ -1,0 +1,81 @@
+﻿@page "/CRM/Companies"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using CRMBlazor.Helpers;
+@using CRMBlazor.Pages.CRM.Shared;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
+
+    <AuthorizeView>
+        <Authorized>
+
+<h3>Firmy</h3>
+
+@if (CompanyList == null)
+{
+    <h3>loading...</h3>
+}
+else
+{
+    <table class="itemList">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Kategoria</th>
+                <th style="width:50px; text-align:center;">
+                    <RadzenButton Icon="add" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => selectedCompany = new()"></RadzenButton>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var company in CompanyList)
+            {
+                <tr>
+                    <td> @company.Name </td>
+                    <td> @company.CompanyTypeId </td>
+                    <td style="width:50px; text-align:center;">
+                        <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => selectedCompany = company"></RadzenButton>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (selectedCompany is not null)
+    {
+
+        <RadzenButton Icon="close" Click="() => selectedCompany = null" style="z-index: 4; position: absolute; top: 20px; right: 20px;" />
+        <CompanyForm Value="selectedCompany" Submitted="(_value) => {Update(_value); selectedCompany = null;}"></CompanyForm>
+    }
+}
+
+<RadzenButton Text="dodaj firmę" Click="() => selectedCompany = new()" />
+
+        </Authorized>
+    <NotAuthorized>
+        <h2>Najpierw należy się zalogować</h2>
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    private HashSet<Company> CompanyList;
+    private Company? selectedCompany;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            CompanyList = db.Companies.ToHashSet();
+        }
+    }
+
+    private async Task Update(Company company)
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            db.Companies.Update(company);
+            await db.SaveChangesAsync();
+        }
+    }
+
+
+
+}

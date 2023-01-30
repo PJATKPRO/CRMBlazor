@@ -1,0 +1,30 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+<ClientForm Value="Value" Submitted="OnSubmit" />
+
+
+@code {
+    [Parameter]
+    public Client Value { get; set; }
+
+
+    async Task OnSubmit(Client client)
+    {
+
+        try
+        {
+            using (var db = await _context.CreateDbContextAsync())
+            {
+                db.Clients.Update(client);
+                await db.SaveChangesAsync();
+            }
+        }
+        catch (Exception x)
+        {
+            Console.WriteLine(x);
+        }
+    }
+
+}

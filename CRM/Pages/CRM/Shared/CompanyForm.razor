@@ -1,0 +1,96 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+<div class="formCardBackground ">
+    <div class="rz-background-color-base-100 formCard">
+        <EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <ul style="list-style: none;">
+                <li>
+                    <h5>Nazwa</h5>
+                    <RadzenTextBox @bind-Value="Value.Name"></RadzenTextBox>
+                </li>
+                <li>
+                    <h5>Opis</h5>
+                    <RadzenTextArea @bind-Value="Value.Description"></RadzenTextArea>
+                </li>
+                <li>
+                    <h5>Adres e-mail</h5>
+                    <RadzenTextBox @bind-Value="Value.Email"></RadzenTextBox>
+                </li>
+                <li>
+                    <h5>Numer telefonu</h5>
+                    <RadzenTextBox @bind-Value="Value.Phone"></RadzenTextBox>
+                </li>
+                <li>
+                    <h5>NIP</h5>
+                    <RadzenTextBox @bind-Value="Value.Nip"></RadzenTextBox>
+                </li>
+                <li>
+                    <h5>KRS</h5>
+                    <RadzenTextBox @bind-Value="Value.Krs"></RadzenTextBox>
+                </li>
+                <li>
+                    <h5>REGON</h5>
+                    <RadzenTextBox @bind-Value="Value.Regon"></RadzenTextBox>
+                </li>
+                <li>
+                    <h5>Dodatkowe informacje</h5>
+                    <RadzenTextArea @bind-Value="Value.AdditionalInfo"></RadzenTextArea>
+                </li>
+                <li>
+                    <h5>Adres</h5>
+                    @if (Value.Address is not null)
+                    {
+                        <AddressForm @bind-Value="Value.Address" />
+
+                        <RadzenButton Text="usuń adres zamieszkania" Click="() => Value.Address = null" />
+                    }
+                    else
+                    {
+                        <RadzenButton Text="dodaj adres zamieszkania" Click="() => Value.Address = new()" />
+                    }
+                </li>
+            </ul>
+
+
+            <RadzenButton ButtonType="ButtonType.Submit">Zapisz</RadzenButton>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Value for form
+    /// </summary>
+    [Parameter]
+    public Company? Value { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the value changed.
+    /// </summary>
+    /// <value>The value changed.</value>
+    [Parameter]
+    public EventCallback<Company> Submitted { get; set; }
+
+    private EditContext? editContext;
+
+
+    protected override void OnParametersSet()
+    {
+        if (Value == null)
+        {
+            Value = new();
+        }
+
+        editContext = new(Value);
+        base.OnParametersSet();
+    }
+
+    private async Task OnSubmit()
+    {
+        await Submitted.InvokeAsync(Value);
+    }
+}

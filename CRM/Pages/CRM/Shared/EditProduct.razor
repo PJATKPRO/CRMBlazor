@@ -1,0 +1,30 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+@*<h3>Edytuj @Value.ProductName</h3>*@
+<ProductForm Value="Value" Submitted="OnSubmit" />
+
+
+@code {
+    [Parameter]
+    public Product Value { get; set; }
+
+
+    async Task OnSubmit(Product product)
+    {
+
+        try
+        {
+            using (var db = await _context.CreateDbContextAsync())
+            {
+                db.Products.Update(product);
+                await db.SaveChangesAsync();
+            }
+        }
+        catch (Exception x)
+        {
+            Console.WriteLine(x);
+        }
+    }
+}

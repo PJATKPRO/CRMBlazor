@@ -1,0 +1,49 @@
+﻿@page "/CRM/CompanyTypes"
+@using CRMBlazor.Data.CRMBlazorDb;
+@using CRMBlazor.Helpers;
+@using CRMBlazor.Pages.CRM.Shared;
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
+
+    <AuthorizeView>
+        <Authorized>
+<h3>Rodzaje firm</h3>
+
+@if (CompanyTypeList == null)
+{
+    <h3>loading...</h3>
+}
+else
+{
+    <ul>
+        @foreach (var companyType in CompanyTypeList)
+        {
+            <li>
+                <h4> @companyType.Name</h4>
+                <RadzenButton Text="Edytuj" />
+                @*<DynamicComponent Type="mode" Value="client"></DynamicComponent>*@
+            </li>
+        }
+    </ul>
+}
+
+<AddCompanyType></AddCompanyType>
+
+    </Authorized>
+    <NotAuthorized>
+        <h2>Najpierw należy się zalogować</h2>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private HashSet<CompanyType> CompanyTypeList;
+    //private Type mode;
+    protected override async Task OnParametersSetAsync()
+    {
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            CompanyTypeList = db.CompanyTypes.ToHashSet();
+        }
+    }
+
+}

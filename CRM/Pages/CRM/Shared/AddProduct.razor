@@ -1,0 +1,37 @@
+﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
+@using CRMBlazor.Data.CRMBlazorDb;
+@using Microsoft.EntityFrameworkCore;
+
+<h3>Dodaj nowy produkt</h3>
+<ProductForm Submitted="OnSubmit" />
+
+
+@code {
+    public Product Value;
+
+    private EditContext? editContext;
+
+
+    protected override void OnParametersSet()
+    {
+        Value = new();
+        editContext = new(Value);
+    }
+
+    async Task OnSubmit(Product product)
+    {
+
+        try
+        {
+            using (var db = await _context.CreateDbContextAsync())
+            {
+                db.Products.Add(product);
+                await db.SaveChangesAsync();
+            }
+        }
+        catch (Exception x)
+        {
+            Console.WriteLine(x);
+        }
+    }
+}
