@@ -16,9 +16,10 @@ namespace CRMBlazor.Application.Clients.Commands.Add
         private readonly IMapper _mapper;
         private readonly IClientRepository _clientRepository;
 
-        public AddClientCommandHandler(IClientRepository clientRepository)
+        public AddClientCommandHandler(IClientRepository clientRepository, IMapper mapper)
         {
             _clientRepository = clientRepository;
+            _mapper= mapper;
         }
 
         public async Task<ErrorOr<Guid>> Handle(AddClientCommand request, CancellationToken cancellationToken)

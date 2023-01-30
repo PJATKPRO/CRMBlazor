@@ -1,12 +1,16 @@
 ﻿@page "/CRM/Flows"
 @using CRMBlazor.Data.CRMBlazorDb;
 @using CRMBlazor.Helpers;
+@using CRMBlazor.Infrastructure.Services.Mail;
 @using CRMBlazor.Pages.CRM.Shared;
 @using Microsoft.EntityFrameworkCore;
 @using System.Text.RegularExpressions;
+@using Newtonsoft.Json;
 @inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
 
 @inject DialogService DialogService
+@inject NotificationService NotificationService
+@inject IJSRuntime JSRuntime
 
 <style>
     a {
@@ -125,6 +129,7 @@
     <table>
         <thead>
             <tr>
+                <th></th>
                 <th>Numer Oferty</th>
                 <th>Nazwa Instalacji</th>
                 <th>Opis</th>
@@ -154,6 +159,7 @@
                 @if (flow.CategoryId == category.Id)
                 {
                     <tr>
+                        <td><RadzenButton Text="Opcje" Click="async arg => await ShowOptions(flow)"></RadzenButton></td>
                         <td>@flow.OfferNr</td>
                         <td>@flow.InstallationName</td>
                         <td>@flow.Description</td>
@@ -167,6 +173,7 @@
                         <td>@flow.ChargerWholesale</td>
                         <td>@flow.EnergyStorageWholesale</td>
                         <td>@flow.IsActive</td>
+
                     </tr>
                 }
             }
@@ -199,20 +206,107 @@
         }
     }
 
-    private void AddFlow(Flow flow)
+    private async Task AddFlow(Flow flow)
     {
         using (var db =  _contextFactory.CreateDbContext())
         {
             db.Flows.Add(flow);
             db.SaveChanges();
+            await OnParametersSetAsync();
+        }
+    }
+    public async Task ShowOptions(Flow flow)
+    {
+        var result = await DialogService.OpenAsync("Simple Dialog", ds =>
+       @<div>
+        <div class="row">
+            <div class="col">
+                <RadzenButton Text="Edit Flow" Click="async arg => {await DialogEditFlow(flow);ds.Close(false);}" Class="me-1" />
+                <RadzenButton Text="Gen PDF" Click="async arg => {await SendMail(flow); ds.Close(false);}" Class="me-1"  />
+                <RadzenButton Text="Zamknij" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" Class="me-1" />
+
+            </div>
+        </div>
+        </div>
+    );
+
+
+
+
+
+    }
+    private async Task DialogAddFlow(){
+        selectedFlow = new();
+        dynamic result = await DialogService.OpenAsync<FlowFormDialog>($"Create Flow",
+              new Dictionary<string, object>() { { "Value", selectedFlow } },
+      new DialogOptions() { Width = "900px", Height = "700px", Resizable = true, Draggable = true });
+
+        if (result != null)
+        {
+            await AddFlow(result);
         }
     }
 
-    private async Task DialogAddFlow(){
-        selectedFlow = new();
-        await DialogService.OpenAsync<FlowFormDialog>($"Create Flow",
-              new Dictionary<string, object>() { { "Value", selectedFlow }, { "Submitted", (dynamic arg) => {  AddFlow(selectedFlow); } } },
-      new DialogOptions() { Width = "700px", Height = "512px", Resizable = true, Draggable = true });
+    private async Task SendMail(Flow flow)
+    {
+        HttpClient http = new HttpClient();
+        PDFGenerator request = new PDFGenerator() { html = $"<html><body>{JsonConvert.SerializeObject(flow)}</body></html>", filename = "test.pdf", outDir = "/PDF/" };
+        string baseAdress = System.Environment.GetEnvironmentVariable("PDFGeneratorBaseAdress") ?? "http://localhost:7501/";
+        http.BaseAddress = new Uri(baseAdress);
+
+        var payload = JsonConvert.SerializeObject(request);
+
+        var content = new StringContent(payload, System.Text.Encoding.UTF8, "application/json");
+
+
+        try
+        {
+
+            var response = await http.PostAsync("stringtopdf", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                await DownloadFileFromStream(request.filename, @"D:/PDF/");
+                NotificationService.Notify((new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Sukcess", Detail = "Pomyslnie wygenerowano PDF.", Duration = 4000 }));
+            }
+            else
+            {
+                NotificationService.Notify((new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Wystąpił błąd przy generowaniu PDF.", Duration = 10000 }));
+                Console.WriteLine(response.Content);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task DownloadFileFromStream(string fileName, string dir)
+    {
+        var fileStream = GetFileStream(Path.Combine(dir, fileName));
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JSRuntime.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    private Stream GetFileStream(string path)
+    {
+
+        return new FileStream(path, FileMode.Open);
+    }
+
+    private async Task DialogEditFlow(Flow flow)
+    {
+        dynamic result = await DialogService.OpenAsync<FlowFormDialog>($"Create Flow",
+              new Dictionary<string, object>() { { "Value", flow } },
+      new DialogOptions() { Width = "900px", Height = "700px", Resizable = true, Draggable = true });
+
+        if (result != null)
+        {
+            await Update(result);
+        }
     }
 
     private string textColor(string str)
@@ -237,6 +331,7 @@
         {
             db.Flows.Update(flow);
             await db.SaveChangesAsync();
+            await OnParametersSetAsync();
         }
     }
 

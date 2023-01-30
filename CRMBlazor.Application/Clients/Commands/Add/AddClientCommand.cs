@@ -11,6 +11,6 @@ using System.Threading.Tasks;
 
 namespace CRMBlazor.Application.Clients.Commands.Add
 {
-    public record AddClientCommand(Guid Id, string Name, string Surname, string Email, string? PeselOrNip, string? Description, AddressCommand? Address, AddressCommand? InvestitionAddress) : IRequest<ErrorOr<Guid>>;
+    public record AddClientCommand(Guid Id, string Name, string Surname, string Email, string? PeselOrNip, string? Description, Address? Address, Address? InvestitionAddress) : IRequest<ErrorOr<Guid>>;
 
 }
