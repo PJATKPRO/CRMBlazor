@@ -5,6 +5,9 @@
 @using Microsoft.EntityFrameworkCore;
 @inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
 
+
+    <AuthorizeView>
+        <Authorized>
 <h3>Produkty</h3>
 
 @if (ProductList == null)
@@ -50,7 +53,11 @@ else
 }
 
 <RadzenButton Text="dodaj produkt" Click="() => selectedProduct = new()" />
-
+        </Authorized>
+    <NotAuthorized>
+        <h2>Najpierw należy się zalogować</h2>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private HashSet<Product> ProductList;

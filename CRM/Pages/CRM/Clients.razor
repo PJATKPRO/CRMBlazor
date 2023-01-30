@@ -6,6 +6,10 @@
 @inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
 
 @inject DialogService DialogService
+
+
+<AuthorizeView>
+    <Authorized>
 <link rel="stylesheet" href="Shared/tableStyles.css">
 
 <h3>Klienci</h3>
@@ -51,7 +55,11 @@ else
 }
 
 <RadzenButton Text="dodaj klienta" Click="() => selectedClient = new()" />
-
+        </Authorized>
+    <NotAuthorized>
+        <h2>Najpierw należy się zalogować</h2>
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     private HashSet<Client> ClientList;
     private Client? selectedClient;

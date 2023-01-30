@@ -12,6 +12,11 @@
 @inject NotificationService NotificationService
 @inject IJSRuntime JSRuntime
 
+
+<AuthorizeView>
+    <Authorized>
+
+
 <style>
     a {
         text-decoration: none;
@@ -126,7 +131,7 @@
         <thead>
             <tr>
                
-                <th><RadzenButton Text="Dodaj" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="async args => await DialogAddFlow()"></RadzenButton></th>
+                <th><RadzenButton Icon="add" Text="Dodaj" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="async args => await DialogAddFlow()"></RadzenButton></th>
                 <th>Numer Oferty</th>
                 <th>Nazwa Instalacji</th>
                 <th>Opis</th>
@@ -156,7 +161,7 @@
                 @if (flow.CategoryId == category.Id)
                 {
                     <tr>
-                        <td><RadzenButton Text="Opcje" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="async arg => await ShowOptions(flow)"></RadzenButton></td>
+                                    <td><RadzenButton Icon="settings" Text="Opcje" ButtonStyle="ButtonStyle.Primary" Variant="Variant.Flat" Size="ButtonSize.Small" Click="async arg => await ShowOptions(flow)"></RadzenButton></td>
                         <td>@flow.OfferNr</td>
                         <td>@flow.InstallationName</td>
                         <td>@flow.Description</td>
@@ -178,7 +183,11 @@
         </tbody>
     </table>
 </div>
-
+    </Authorized>
+    <NotAuthorized>
+        <h2>Najpierw należy się zalogować</h2>
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     private HashSet<FlowCategory> FlowCaterories;
     private HashSet<Flow> FlowList;
@@ -194,7 +203,7 @@
     {
         using (var db = await _contextFactory.CreateDbContextAsync())
         {
-            FlowCaterories = db.FlowCategory.AsNoTracking().ToHashSet();
+            FlowCaterories = db.FlowCategory.AsNoTracking().Include(x => x.Flows).ToHashSet();
         }
 
         using (var db = await _contextFactory.CreateDbContextAsync())

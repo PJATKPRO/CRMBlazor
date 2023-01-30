@@ -5,6 +5,8 @@
 @using Microsoft.EntityFrameworkCore;
 @inject IDbContextFactory<CRMBlazorDbContext> _contextFactory
 
+    <AuthorizeView>
+        <Authorized>
 <h3>Rodzaje firm</h3>
 
 @if (CompanyTypeList == null)
@@ -26,6 +28,12 @@ else
 }
 
 <AddCompanyType></AddCompanyType>
+
+    </Authorized>
+    <NotAuthorized>
+        <h2>Najpierw należy się zalogować</h2>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private HashSet<CompanyType> CompanyTypeList;

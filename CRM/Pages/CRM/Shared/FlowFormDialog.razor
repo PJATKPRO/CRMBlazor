@@ -64,9 +64,11 @@
         </li>
 
         <li>
+            <h5>Warehouse</h5>
             <RadzenDropDown AllowFiltering=true @bind-Value="Value.WarehouseId" TextProperty="Name" ValueProperty="Id" Data="Warehouses"></RadzenDropDown>
         </li>
         <li>
+            <h5>Client</h5>
             <RadzenDropDown AllowFiltering=true @bind-Value="Value.ClientId" ValueProperty="Id" Data="Clients">
                 <Template Context="client">
                     <p>
@@ -76,6 +78,7 @@
             </RadzenDropDown>
         </li>
         <li>
+            <h5>FlowCategory</h5>
             <RadzenDropDown AllowFiltering=true @bind-Value="Value.CategoryId" TextProperty="Name" ValueProperty="Id" Data="Categories"></RadzenDropDown>
         </li>
     </ul>
