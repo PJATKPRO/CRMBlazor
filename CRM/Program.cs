@@ -1,8 +1,10 @@
 using CRMBlazor.Areas.Identity;
 using CRMBlazor.Data;
 using CRMBlazor.Data.CRMBlazorDb;
+using CRMBlazor.Errors;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
 
@@ -42,6 +44,9 @@ namespace CRMBlazor
             builder.Services.AddScoped<NotificationService>();
             builder.Services.AddScoped<TooltipService>();
             builder.Services.AddScoped<ContextMenuService>();
+
+
+            builder.Services.AddSingleton<ProblemDetailsFactory, CustomProblemDetailsFactory>();
 
             var app = builder.Build();
 
