@@ -19,7 +19,6 @@ namespace CRMBlazor.Application.Common.Interfaces.Persistance
         Task DeleteComapny(CompanyId id);
         Task UpdateCompany(Company company);
 
-
         Task<CompanyType> CreateComapnyType(CompanyTypeId id, string name, string? description);
         Task<CompanyType> GetComapnyType(CompanyTypeId id);
         Task<IReadOnlyList<CompanyType>> GetAllCompanyTypes();

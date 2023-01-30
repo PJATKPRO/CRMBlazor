@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CRMBlazor.Application.Common.Interfaces.Persistance
 {
-    public interface IClientRepository
+    internal interface IClientRepository
     {
         Task<Client> Create(ClientId clientId, string name, string surname, string email, string? peselOrNip, string? description, Address? address, Address? investitionAddress);
         Task<IReadOnlyList<Client>> GetAll();
