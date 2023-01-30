@@ -3,16 +3,18 @@
 <h4>Adres Zamieszkania</h4>
 @Value.City
         <ul>
-            <h5>Nazwa miejscowości</h5>
-            <RadzenTextBox Value="@Value.City" Change="(_value) => { Value.City = _value; ValueChanged.InvokeAsync(Value);}"></RadzenTextBox>
-        </ul>
-        <ul>
-            <h5>Ulica</h5>
-    <RadzenTextBox Value="@Value.Street" Change="(_value) => { Value.Street = _value; ValueChanged.InvokeAsync(Value);}"></RadzenTextBox>
-</ul>
-        <ul>
-            <h5>Kod pocztowy</h5>
-    <RadzenTextBox Value="@Value.PostCode" Change="(_value) => { Value.PostCode = _value; ValueChanged.InvokeAsync(Value);}"></RadzenTextBox>
+            <li>
+                <h5>Nazwa miejscowości</h5>
+                <RadzenTextBox Value="@Value.City" Change="(_value) => { Value.City = _value; ValueChanged.InvokeAsync(Value);}"></RadzenTextBox>
+            </li>
+            <li>
+                <h5>Ulica</h5>
+                <RadzenTextBox Value="@Value.Street" Change="(_value) => { Value.Street = _value; ValueChanged.InvokeAsync(Value);}"></RadzenTextBox>
+            </li>
+           <li>
+                <h5>Kod pocztowy</h5>
+                <RadzenTextBox Value="@Value.PostCode" Change="(_value) => { Value.PostCode = _value; ValueChanged.InvokeAsync(Value);}"></RadzenTextBox>
+           </li>
 </ul>
 
 @code {

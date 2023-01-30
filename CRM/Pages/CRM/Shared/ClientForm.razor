@@ -2,55 +2,59 @@
 @using CRMBlazor.Data.CRMBlazorDb;
 @using Microsoft.EntityFrameworkCore;
 
+<div class="formCardBackground">
+    <div class="rz-background-color-base-100 formCard">
+        
+        <EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
+            @*EditForm to komponent formularza wymaga parametru EditContext który jest jako prywatna i zainicializowana w OnParametersSet albo OnParametersSetAsync*@
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <ul>
+                <li>
+                    <h5>Imię</h5>
+                    <RadzenTextBox @bind-Value="Value.Name"></RadzenTextBox>
+                </li>
+                <li>
+                    <h5>Nazwisko</h5>
+                    <RadzenTextBox @bind-Value="Value.Surname"></RadzenTextBox>
+                </li>
+                <li>
+                    <h5>Adres e-mail</h5>
+                    <RadzenTextBox @bind-Value="Value.Email"></RadzenTextBox>
+                </li>
+                <li>
+                    <h5>Pesel lub NIP</h5>
+                    <RadzenTextBox @bind-Value="Value.PeselOrNip"></RadzenTextBox>
+                </li>
+            </ul>
 
-<EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
-    @*EditForm to komponent formularza wymaga parametru EditContext który jest jako prywatna i zainicializowana w OnParametersSet albo OnParametersSetAsync*@
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <ul style="list-style: none;">
-        <li>
-            <h5>Imię</h5>
-            <RadzenTextBox @bind-Value="Value.Name"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>Nazwisko</h5>
-            <RadzenTextBox @bind-Value="Value.Surname"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>Adres e-mail</h5>
-            <RadzenTextBox @bind-Value="Value.Email"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>Pesel lub NIP</h5>
-            <RadzenTextBox @bind-Value="Value.PeselOrNip"></RadzenTextBox>
-        </li>
-    </ul>
+            @if (Value.Address is not null)
+            {
+                <AddressForm @bind-Value="Value.Address" />
 
-    @if (Value.Address is not null)
-    {
-        <AddressForm @bind-Value="Value.Address" />
+                <RadzenButton Text="usuń adres zamieszkania" Click="() => Value.Address = null" />
+            }
+            else
+            {
+                <RadzenButton Text="dodaj adres zamieszkania" Click="() => Value.Address = new()" />
+            }
 
-        <RadzenButton Text="usuń adres zamieszkania" Click="() => Value.Address = null" />
-    }
-    else
-    {
-        <RadzenButton Text="dodaj adres zamieszkania" Click="() => Value.Address = new()" />
-    }
+            @if (Value.InvestitionAddress is not null)
+            {
+                <AddressForm @bind-Value="Value.InvestitionAddress" />
 
-    @if (Value.InvestitionAddress is not null)
-    {
-        <AddressForm @bind-Value="Value.InvestitionAddress" />
-
-        <RadzenButton Text="usuń adres inwestycji" Click="() => Value.InvestitionAddress = null" />
-    }
-    else
-    {
-        <RadzenButton Text="dodaj adres inwestycji" Click="() => Value.InvestitionAddress = new()" />
-    }
+                <RadzenButton Text="usuń adres inwestycji" Click="() => Value.InvestitionAddress = null" />
+            }
+            else
+            {
+                <RadzenButton Text="dodaj adres inwestycji" Click="() => Value.InvestitionAddress = new()" />
+            }
 
 
-    <RadzenButton ButtonType="ButtonType.Submit">Zapisz</RadzenButton>
-</EditForm>
+            <RadzenButton ButtonType="ButtonType.Submit">Zapisz</RadzenButton>
+        </EditForm>
+    </div>
+</div>
 
 @code {
     /// <summary>
@@ -79,7 +83,8 @@
         base.OnParametersSet();
     }
 
-    private async Task OnSubmit(){
+    private async Task OnSubmit()
+    {
         await Submitted.InvokeAsync(Value);
     }
         

@@ -2,22 +2,23 @@
 @using CRMBlazor.Data.CRMBlazorDb;
 @using Microsoft.EntityFrameworkCore;
 
-<ClientForm Value="Value" Submitted="OnSubmit" />
+@*<h3>Edytuj ofertę nr. @Value.OfferNr</h3>*@
+<FlowForm Value="Value" Submitted="OnSubmit" />
 
 
 @code {
     [Parameter]
-    public Client Value { get; set; }
+    public Flow Value { get; set; }
 
 
-    async Task OnSubmit(Client client)
+    async Task OnSubmit(Flow flow)
     {
 
         try
         {
             using (var db = await _context.CreateDbContextAsync())
             {
-                db.Clients.Update(client);
+                db.Flows.Update(flow);
                 await db.SaveChangesAsync();
             }
         }
