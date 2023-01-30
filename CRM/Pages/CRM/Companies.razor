@@ -13,23 +13,45 @@
 }
 else
 {
-    <ul>
-        @foreach (var company in CompanyList)
-        {
-            <li>
-                <h4> @company.Name</h4>
+    <table class="itemList">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Kategoria</th>
+                <th style="width:50px; text-align:center;">
+                    <RadzenButton Icon="add" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => selectedCompany = new()"></RadzenButton>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var company in CompanyList)
+            {
+                <tr>
+                    <td> @company.Name </td>
+                    <td> @company.CompanyTypeId </td>
+                    <td style="width:50px; text-align:center;">
+                        <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="() => selectedCompany = company"></RadzenButton>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-            </li>
-        }
-    </ul>
+    @if (selectedCompany is not null)
+    {
+
+        <RadzenButton Icon="close" Click="() => selectedCompany = null" style="z-index: 4; position: absolute; top: 20px; right: 20px;" />
+        <CompanyForm Value="selectedCompany" Submitted="(_value) => {Update(_value); selectedCompany = null;}"></CompanyForm>
+    }
 }
 
-<AddCompany></AddCompany>
+<RadzenButton Text="dodaj firmę" Click="() => selectedCompany = new()" />
 
 
 @code {
     private HashSet<Company> CompanyList;
-    //private Type mode;
+    private Company? selectedCompany;
+
     protected override async Task OnParametersSetAsync()
     {
         using (var db = await _contextFactory.CreateDbContextAsync())
@@ -38,10 +60,15 @@ else
         }
     }
 
-    private Type type;
-    private HashSet<Type> Components = new HashSet<Type>()
+    private async Task Update(Company company)
     {
-            typeof(Clients)
-    };
+        using (var db = await _contextFactory.CreateDbContextAsync())
+        {
+            db.Companies.Update(company);
+            await db.SaveChangesAsync();
+        }
+    }
+
+
 
 }

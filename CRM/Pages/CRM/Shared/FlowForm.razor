@@ -9,6 +9,10 @@
     <ValidationSummary />
     <ul style="list-style: none;">
         <li>
+            <h5>Numer Oferty</h5>
+            <RadzenNumeric TValue="int" @bind-Value="Value.OfferNr"></RadzenNumeric>
+        </li>
+        <li>
             <h5>Nazwa instalacji</h5>
             <RadzenTextBox @bind-Value="Value.InstallationName"></RadzenTextBox>
         </li>
@@ -25,16 +29,12 @@
             <RadzenTextBox @bind-Value="Value.ConstructionType"></RadzenTextBox>
         </li>
         <li>
-            <h5>Ładownie samochodów elektrycznych</h5>
+            <h5>Ładowanie samochodów elektrycznych</h5>
             <RadzenTextBox @bind-Value="Value.EVCharger"></RadzenTextBox>
         </li>
         <li>
             <h5>Ilość ładowarek</h5>
             <RadzenTextBox @bind-Value="Value.EVChargerCounter"></RadzenTextBox>
-        </li>
-        <li>
-            <h5>Rodzaj konstrukcji?</h5>
-            <RadzenTextBox @bind-Value="Value.ConstructionType"></RadzenTextBox>
         </li>
         <li>
             <h5>Data instalacji?</h5>

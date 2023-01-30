@@ -66,3 +66,44 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.itemList {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+    .itemList th, td {
+        border: 1px solid #d1d1d1;
+        padding: 0.5rem;
+        text-align: left;
+    }
+
+.formCardBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+
+    .formCardBackground .formCard {
+        position: absolute;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+        max-width: 1000px;
+        max-height: 80vh;
+        border-radius: 20px;
+        padding: 50px;
+        overflow: scroll;
+        top: 100px;
+    }
+
+        .formCardBackground .formCard ul {
+            list-style: none;
+            padding: 0;
+        }

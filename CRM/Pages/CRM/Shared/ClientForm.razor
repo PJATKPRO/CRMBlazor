@@ -2,36 +2,7 @@
 @using CRMBlazor.Data.CRMBlazorDb;
 @using Microsoft.EntityFrameworkCore;
 
-<style>
-    .background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 3;
-    }
-
-    .formCard {
-        position: absolute;
-        max-width: 1000px;
-        max-height: 80vh;
-        border-radius: 20px;
-        padding: 50px;
-        overflow: scroll;
-    }
-
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-</style>
-
-<div class="background">
+<div class="formCardBackground">
     <div class="rz-background-color-base-100 formCard">
         
         <EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
@@ -112,7 +83,8 @@
         base.OnParametersSet();
     }
 
-    private async Task OnSubmit(){
+    private async Task OnSubmit()
+    {
         await Submitted.InvokeAsync(Value);
     }
         
