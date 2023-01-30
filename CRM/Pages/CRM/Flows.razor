@@ -120,6 +120,7 @@
     }
 </div>
 
+<RadzenButton Icon="add" Variant="Variant.Flat" Text="Add" Size="ButtonSize.ExtraSmall" Click="async args => await DialogAddFlow()"></RadzenButton>
 <div class="flow_table">
     <table>
         <thead>
@@ -145,7 +146,6 @@
             <tr class="titleRow" id="@category.Id" style="border-top: 3px solid @category.Color;">
                 <td colspan="12"><span style="background-color: @category.Color; color: @textColor(category.Color)"> @category.Name</span></td>
                 <td style="width:50px; text-align:center;">
-                    <RadzenButton Icon="add" Variant="Variant.Flat" Size="ButtonSize.ExtraSmall" Click="() => selectedFlow = new()"></RadzenButton>
                 </td>
             </tr>
 
@@ -197,6 +197,22 @@
         {
             FlowList = db.Flows.AsNoTracking().ToHashSet();
         }
+    }
+
+    private void AddFlow(Flow flow)
+    {
+        using (var db =  _contextFactory.CreateDbContext())
+        {
+            db.Flows.Add(flow);
+            db.SaveChanges();
+        }
+    }
+
+    private async Task DialogAddFlow(){
+        selectedFlow = new();
+        await DialogService.OpenAsync<FlowFormDialog>($"Create Flow",
+              new Dictionary<string, object>() { { "Value", selectedFlow }, { "Submitted", (dynamic arg) => {  AddFlow(selectedFlow); } } },
+      new DialogOptions() { Width = "700px", Height = "512px", Resizable = true, Draggable = true });
     }
 
     private string textColor(string str)

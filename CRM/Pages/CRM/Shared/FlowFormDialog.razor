@@ -1,7 +1,7 @@
 ﻿@inject IDbContextFactory<CRMBlazorDbContext> _context
 @using CRMBlazor.Data.CRMBlazorDb;
 @using Microsoft.EntityFrameworkCore;
-
+@inject DialogService DialogService
 
 <EditForm EditContext="editContext" OnValidSubmit="OnSubmit">
     @*EditForm to komponent formularza wymaga parametru EditContext który jest jako prywatna i zainicializowana w OnParametersSet albo OnParametersSetAsync*@
@@ -125,7 +125,7 @@
 
     private async Task OnSubmit()
     {
-        await Submitted.InvokeAsync(Value);
+        DialogService.Close(Value);
     }
 
 }
